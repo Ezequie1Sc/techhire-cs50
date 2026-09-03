@@ -1,0 +1,304 @@
+<div class="min-h-screen bg-[#f4f1ec] text-[#141414] overflow-hidden">
+
+  <!-- HERO -->
+  <section class="premium-section max-w-[1500px] mx-auto px-5 md:px-8 pt-10 pb-16 animate-fade-in-up">
+    <div class="rounded-[2rem] bg-[#fbfaf7] border border-black/5 shadow-[0_30px_80px_rgba(0,0,0,0.08)] overflow-hidden">
+      
+      <!-- Contenedor Principal en columna -->
+      <div class="flex flex-col">
+        
+        <!-- Parte Superior: Texto + Imágenes -->
+        <!-- PUNTO 9: Grid modificado -->
+        <div class="grid xl:grid-cols-[0.9fr_1.1fr] gap-6 xl:gap-8 items-center p-6 md:p-8 lg:p-10 border-b border-black/5">
+          
+          <!-- Columna Izquierda: Texto -->
+          <!-- PUNTO 9: max-w-[560px] aplicado -->
+          <div class="max-w-[560px]">
+            
+            <!-- PUNTO 4: Título reducido y ajustado -->
+            <h1 class="premium-title text-4xl md:text-5xl xl:text-6xl 2xl:text-[5.3rem] tracking-[-0.04em] leading-[0.95] max-w-2xl text-[#141414]">
+              <span class="font-normal">{{ t('home.heroTitle') }}</span>
+            </h1>
+
+            <!-- PUNTO 5: Párrafo ajustado -->
+            <p class="mt-6 text-[15px] md:text-[17px] text-[#6b665f] max-w-xl leading-relaxed">
+              {{ t('home.heroDescription') }}
+            </p>
+
+            <!-- PUNTO 6: Botones más compactos -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-3">
+              <button
+                type="button"
+                (click)="goToJobs()"
+                class="bg-[#141414] text-white px-8 py-3.5 rounded-full font-medium hover:scale-[1.02] transition-all duration-300 ease-out flex items-center justify-center gap-2 group"
+              >
+                {{ t('home.exploreJobs') }}
+                <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </button>
+
+              <button
+                type="button"
+                (click)="goToFavorites()"
+                class="bg-white border border-black/10 text-[#141414] px-8 py-3.5 rounded-full font-medium hover:bg-[#f3f3f3] transition-all duration-300 ease-out text-center"
+              >
+                {{ t('home.viewFavorites') }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Columna Derecha: Imágenes -->
+          <!-- PUNTO 7: Alturas reducidas -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="col-span-2 rounded-[2rem] overflow-hidden relative group h-56 xl:h-64">
+              <img
+                src="/oficina-tech.jpg"
+                alt="Equipo tech colaborando"
+                loading="eager"
+                class="premium-image w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            </div>
+
+            <div class="rounded-[2rem] overflow-hidden relative group h-40 xl:h-48">
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
+                alt="Trabajo remoto global"
+                loading="lazy"
+                class="premium-image w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            </div>
+
+            <div class="rounded-[2rem] overflow-hidden relative group h-40 xl:h-48">
+              <img
+                src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=800&q=80"
+                alt="Diseñador trabajando"
+                loading="lazy"
+                class="premium-image w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Parte Inferior: Logos -->
+        <!-- PUNTO 8: Padding reducido de los logos -->
+        <div class="px-6 md:px-10 lg:px-14 py-6 md:py-7 border-t border-black/5">
+          
+          <div class="flex justify-center mb-6">
+            <h4 class="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#8a8177]">
+              {{ t('home.trustedBy') || 'EMPRESAS QUE CONFÍAN EN NOSOTROS' }}
+            </h4>
+          </div>
+
+          <div class="w-full flex flex-wrap justify-center items-center gap-x-10 gap-y-4">
+            <!-- Google -->
+            <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <img src="/icons/Google_2015_logo.svg" alt="Google" class="h-8 w-auto filter-grayscale object-contain" />
+            </div>
+            <div class="h-8 w-[1px] bg-black/10"></div>
+
+            <!-- Microsoft -->
+            <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" alt="Microsoft" class="h-7 w-auto filter-grayscale object-contain" />
+            </div>
+            <div class="h-8 w-[1px] bg-black/10"></div>
+
+            <!-- Amazon -->
+            <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <img src="/icons/Amazon_logo.svg" alt="Amazon" class="h-7 w-auto filter-grayscale object-contain" />
+            </div>
+            <div class="h-8 w-[1px] bg-black/10"></div>
+
+            <!-- IBM -->
+            <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" alt="IBM" class="h-7 w-auto filter-grayscale object-contain" />
+            </div>
+            <div class="h-8 w-[1px] bg-black/10"></div>
+
+            <!-- NVIDIA -->
+            <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <svg class="h-7 w-auto filter-grayscale-svg" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 15c0-5.5 4.5-10 10-10h14v20H30c-5.5 0-10-4.5-10-10z" fill="currentColor"/>
+                <path d="M30 6c-5 0-9 4-9 9s4 9 9 9 9-4 9-9-4-9-9-9z" fill="currentColor"/>
+                <text x="46" y="21" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="18" fill="currentColor" letter-spacing="0.5">NVIDIA</text>
+              </svg>
+            </div>
+            <div class="h-8 w-[1px] bg-black/10"></div>
+
+            <!-- Oracle -->
+            <div class="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300 cursor-default">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg" alt="Oracle" class="h-6 w-auto filter-grayscale object-contain" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO INFO -->
+  <!-- PUNTO 1: max-w-[1500px] aplicado -->
+  <section class="premium-section max-w-[1500px] mx-auto px-5 md:px-8 pb-20 animate-fade-in-up animate-delay-2">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+
+      <article class="premium-card md:col-span-2 bg-white rounded-[2rem] p-8 md:p-10 border border-black/5 flex flex-col justify-between min-h-[256px] transition-all duration-300 ease-out hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
+        <span class="text-xs uppercase tracking-[0.2em] text-[#8a8177] font-bold">
+          {{ t('home.processTitle') }}
+        </span>
+        <div>
+          <h2 class="text-4xl md:text-5xl font-semibold tracking-[-0.05em] mt-4 leading-[1.05]">
+            {{ t('home.processTitle') }}
+          </h2>
+          <p class="text-[#6b665f] mt-4 leading-relaxed text-sm">
+            {{ t('home.processDescription') }}
+          </p>
+        </div>
+      </article>
+
+      <article class="premium-card feature-card md:col-span-1 min-h-[256px]">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Explorar empleos" loading="lazy" class="premium-image" />
+        <div>
+          <span class="text-white/30 text-xs font-medium tracking-wide">01</span>
+          <h3 class="text-2xl font-semibold tracking-tight">{{ t('home.explore') }}</h3>
+          <p class="text-white/50 text-sm mt-2">{{ t('home.exploreDescription') }}</p>
+        </div>
+      </article>
+
+      <article class="premium-card feature-card md:col-span-1 min-h-[256px]">
+        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80" alt="Filtrar por categoría" loading="lazy" class="premium-image" />
+        <div>
+          <span class="text-white/30 text-xs font-medium tracking-wide">02</span>
+          <h3 class="text-2xl font-semibold tracking-tight">{{ t('home.filter') }}</h3>
+          <p class="text-white/50 text-sm mt-2">{{ t('home.filterDescription') }}</p>
+        </div>
+      </article>
+
+      <article class="premium-card feature-card md:col-span-1 min-h-[256px]">
+        <img src="https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?auto=format&fit=crop&w=600&q=80" alt="Guardar favoritos" loading="lazy" class="premium-image" />
+        <div>
+          <span class="text-white/30 text-xs font-medium tracking-wide">03</span>
+          <h3 class="text-2xl font-semibold tracking-tight">{{ t('home.save') }}</h3>
+          <p class="text-white/50 text-sm mt-2">{{ t('home.saveDescription') }}</p>
+        </div>
+      </article>
+
+      <article class="premium-card feature-card md:col-span-2 min-h-[256px]">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=80" alt="Vacantes destacadas" loading="lazy" class="premium-image" />
+        <div>
+          <h3 class="text-white text-2xl md:text-3xl font-semibold tracking-[-0.04em] leading-tight">
+            {{ t('home.recentJobs') }}
+          </h3>
+        </div>
+      </article>
+
+      <article class="premium-card feature-card md:col-span-1 min-h-[256px]">
+        <img src="/remotea.webp" alt="Aplicar a vacante" loading="lazy" class="premium-image" />
+        <div>
+          <span class="text-white/30 text-xs font-medium tracking-wide">04</span>
+          <h3 class="text-2xl font-semibold tracking-tight">{{ t('home.apply') }}</h3>
+          <p class="text-white/50 text-sm mt-2">{{ t('home.applyDescription') }}</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- VACANTES -->
+  <section class="premium-section max-w-[1500px] mx-auto px-5 md:px-8 pb-20 animate-fade-in-up animate-delay-3">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-5 mb-8">
+      <div>
+        <span class="text-xs uppercase tracking-[0.2em] text-[#8a8177] font-bold">
+          {{ t('home.recentJobs') }}
+        </span>
+        <h2 class="text-4xl md:text-5xl font-semibold tracking-[-0.05em] mt-3">
+          {{ t('home.recentJobs') }}
+        </h2>
+      </div>
+      <button type="button" (click)="goToJobs()" class="bg-[#141414] text-white px-6 py-3 rounded-full font-medium hover:scale-[1.02] transition-all duration-300 ease-out w-fit">
+        {{ t('home.seeAll') }} →
+      </button>
+    </div>
+
+    @if (loading) {
+      <div class="bg-white rounded-[2rem] p-10 border border-black/5 flex flex-col justify-center items-center min-h-[200px] gap-4">
+        <div class="loader-wave"><span></span><span></span><span></span><span></span><span></span></div>
+        <p class="text-sm text-[#6b665f] font-medium tracking-wide animate-pulse">{{ t('home.recentJobs') }}</p>
+      </div>
+    }
+
+    @if (!loading && error && latestJobs.length === 0) {
+      <div class="bg-white rounded-[2rem] p-10 text-center border border-black/5">
+        <p class="text-gray-500">{{ error }}</p>
+        <button type="button" (click)="loadLatestJobs()" class="mt-5 bg-[#141414] text-white px-6 py-3 rounded-full hover:scale-[1.02] transition-all duration-300 ease-out">
+          {{ t('home.recentJobs') }}
+        </button>
+      </div>
+    }
+
+    @if (!loading && !error && latestJobs.length > 0) {
+      <div class="relative bg-[#fbfaf7] border border-black/5 rounded-[2.5rem] p-4 md:p-6 shadow-[0_30px_80px_rgba(0,0,0,0.06)] overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+          <div>
+            <p class="text-sm font-semibold text-[#141414]">{{ t('home.recentJobsDescription') }}</p>
+            <p class="text-sm text-[#6b665f]">{{ t('home.recentJobsDescription') }}</p>
+          </div>
+          <div class="hidden md:flex items-center gap-2">
+            <button type="button" (click)="scrollCarousel('left')" class="carousel-control hover:scale-105 transition-all duration-300 ease-out">←</button>
+            <button type="button" (click)="scrollCarousel('right')" class="carousel-control carousel-control-dark hover:scale-105 transition-all duration-300 ease-out">→</button>
+          </div>
+        </div>
+
+        <div class="home-translation-row">
+          <div>
+            <span class="home-translation-title">{{ t('home.jobsLanguage') }}</span>
+            <p class="home-translation-text">{{ t('home.jobsLanguageDescription') }}</p>
+          </div>
+          <div class="home-translation-actions">
+            <button type="button" class="home-translation-btn" [class.active]="selectedHomeJobsLanguage === 'original'" [disabled]="translatingHomeJobs" (click)="changeHomeJobsLanguage('original')">{{ t('home.original') }}</button>
+            <button type="button" class="home-translation-btn" [class.active]="selectedHomeJobsLanguage === 'es'" [disabled]="translatingHomeJobs" (click)="changeHomeJobsLanguage('es')">{{ t('home.spanish') }}</button>
+            <button type="button" class="home-translation-btn" [class.active]="selectedHomeJobsLanguage === 'en'" [disabled]="translatingHomeJobs" (click)="changeHomeJobsLanguage('en')">{{ t('home.english') }}</button>
+          </div>
+          @if (translatingHomeJobs) { <span class="home-translation-status">{{ t('home.recentJobsDescription') }}</span> }
+          @if (homeTranslationError) { <span class="home-translation-error">{{ homeTranslationError }}</span> }
+        </div>
+
+        <div #jobsCarousel class="jobs-carousel flex gap-5 overflow-x-auto scroll-smooth pb-4">
+          @for (job of latestJobs; track job.slug) {
+            <div class="carousel-item shrink-0 w-[88%] sm:w-[70%] md:w-[48%] xl:w-[32%]">
+              <app-job-card [job]="job"></app-job-card>
+            </div>
+          }
+        </div>
+
+        <div class="md:hidden flex justify-center gap-3 mt-4">
+          <button type="button" (click)="scrollCarousel('left')" class="carousel-mobile-btn transition-all duration-200 ease-out hover:scale-105">← {{ t('home.previous') }}</button>
+          <button type="button" (click)="scrollCarousel('right')" class="carousel-mobile-btn carousel-mobile-btn-dark transition-all duration-200 ease-out hover:scale-105">{{ t('home.next') }} →</button>
+        </div>
+      </div>
+    }
+
+    @if (!loading && !error && latestJobs.length === 0) {
+      <div class="bg-white rounded-[2rem] p-10 text-center border border-black/5">
+        <p class="text-gray-500">{{ t('home.recentJobs') }}</p>
+      </div>
+    }
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="premium-section max-w-[1500px] mx-auto px-5 md:px-8 pb-20 animate-fade-in-up animate-delay-4">
+    <div class="relative overflow-hidden rounded-[2.5rem] bg-[#141414] text-white p-8 md:p-14">
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Oficina moderna tech" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+      <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+        <h2 class="text-4xl md:text-6xl font-semibold tracking-[-0.06em] leading-none">
+          {{ t('home.ctaTitle') }}
+        </h2>
+        <p class="text-white/70 mt-5 max-w-2xl">
+          {{ t('home.ctaDescription') }}
+        </p>
+        <button type="button" (click)="goToJobs()" class="inline-flex mt-8 bg-white text-[#141414] px-7 py-4 rounded-full font-medium hover:scale-[1.02] transition-all duration-300 ease-out">
+          {{ t('home.startSearch') }} →
+        </button>
+      </div>
+    </div>
+  </section>
+
+</div>

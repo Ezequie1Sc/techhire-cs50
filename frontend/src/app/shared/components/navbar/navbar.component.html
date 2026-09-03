@@ -1,0 +1,268 @@
+<header class="fixed top-4 left-0 right-0 z-50 px-4">
+  <nav class="max-w-7xl mx-auto">
+
+    <div class="navbar-shell" [class.closing]="isClosing">
+      <div class="flex items-center justify-between gap-4">
+
+        <!-- Brand -->
+        <button
+          type="button"
+          class="flex items-center gap-3 min-w-0 bg-transparent border-0 cursor-pointer"
+          (click)="goTo('/')"
+        >
+          <div class="brand-logo">
+            <img
+              src="/logo3.png"
+              alt="Logo Jobly"
+              class="w-full h-full object-contain"
+            />
+          </div>
+
+          <div class="leading-tight min-w-0">
+            <p class="text-[#141414] font-semibold tracking-[-0.04em] text-lg">
+              Jobly
+            </p>
+          </div>
+        </button>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-1 nav-pill">
+
+          <button
+            type="button"
+            class="nav-link"
+            [class.nav-active]="isActive('/')"
+            (click)="goTo('/')"
+          >
+            {{ translation.currentLanguage === 'es' ? 'Inicio' : 'Home' }}
+          </button>
+
+          <button
+            type="button"
+            class="nav-link"
+            [class.nav-active]="isActive('/jobs')"
+            (click)="goTo('/jobs')"
+          >
+            {{ translation.currentLanguage === 'es' ? 'Vacantes' : 'Jobs' }}
+          </button>
+
+          <button
+            type="button"
+            class="nav-link"
+            [class.nav-active]="isActive('/favorites')"
+            (click)="goTo('/favorites')"
+          >
+            {{ translation.currentLanguage === 'es' ? 'Favoritos' : 'Favorites' }}
+          </button>
+
+        </div>
+
+        <!-- Desktop Actions -->
+        <div class="hidden md:flex items-center gap-3">
+
+          <div class="language-dropdown">
+            <button
+              type="button"
+              class="language-trigger"
+              (click)="toggleLanguageMenu()"
+            >
+              <img
+                [src]="currentFlag"
+                alt="Idioma actual"
+                class="language-flag"
+              />
+
+              <span>{{ currentLabel }}</span>
+
+              <svg
+                class="language-chevron"
+                [class.rotate]="isLanguageOpen"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+
+            @if (isLanguageOpen) {
+              <div class="language-menu">
+
+                <button
+                  type="button"
+                  class="language-option"
+                  [class.active]="translation.currentLanguage === 'en'"
+                  (click)="changeLanguage('en')"
+                >
+                  <img src="https://flagcdn.com/us.svg" alt="English" class="language-flag" />
+                  <span>English</span>
+
+                  @if (translation.currentLanguage === 'en') {
+                    <span class="language-check">✓</span>
+                  }
+                </button>
+
+                <button
+                  type="button"
+                  class="language-option"
+                  [class.active]="translation.currentLanguage === 'es'"
+                  (click)="changeLanguage('es')"
+                >
+                  <img src="https://flagcdn.com/mx.svg" alt="Español" class="language-flag" />
+                  <span>Español</span>
+
+                  @if (translation.currentLanguage === 'es') {
+                    <span class="language-check">✓</span>
+                  }
+                </button>
+
+              </div>
+            }
+          </div>
+
+          <button
+            type="button"
+            class="nav-cta"
+            (click)="goTo('/jobs')"
+          >
+            {{ translation.translate('home.exploreJobs') }}
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              />
+            </svg>
+          </button>
+
+        </div>
+
+        <!-- Mobile Button -->
+        <button
+          type="button"
+          (click)="toggleMenu()"
+          class="mobile-toggle"
+          aria-label="Abrir menú"
+        >
+          @if (!isMenuOpen) {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 7h16M4 12h16M4 17h16"
+              />
+            </svg>
+          } @else {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          }
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    @if (isMenuOpen) {
+      <div class="mobile-menu">
+
+        <div class="mobile-language-selector">
+
+          <button
+            type="button"
+            class="mobile-lang-btn"
+            [class.active]="translation.currentLanguage === 'es'"
+            (click)="changeLanguage('es')"
+          >
+            <img src="https://flagcdn.com/mx.svg" alt="Español" class="mobile-lang-flag" />
+            <span>Español</span>
+          </button>
+
+          <button
+            type="button"
+            class="mobile-lang-btn"
+            [class.active]="translation.currentLanguage === 'en'"
+            (click)="changeLanguage('en')"
+          >
+            <img src="https://flagcdn.com/us.svg" alt="English" class="mobile-lang-flag" />
+            <span>English</span>
+          </button>
+
+        </div>
+
+        <div class="mobile-nav-links">
+
+          <button
+            type="button"
+            class="mobile-link"
+            [class.mobile-active]="isActive('/')"
+            (click)="goTo('/')"
+          >
+            <span>{{ translation.currentLanguage === 'es' ? 'Inicio' : 'Home' }}</span>
+          </button>
+
+          <button
+            type="button"
+            class="mobile-link"
+            [class.mobile-active]="isActive('/jobs')"
+            (click)="goTo('/jobs')"
+          >
+            <span>{{ translation.currentLanguage === 'es' ? 'Vacantes' : 'Jobs' }}</span>
+          </button>
+
+          <button
+            type="button"
+            class="mobile-link"
+            [class.mobile-active]="isActive('/favorites')"
+            (click)="goTo('/favorites')"
+          >
+            <span>{{ translation.currentLanguage === 'es' ? 'Favoritos' : 'Favorites' }}</span>
+          </button>
+
+        </div>
+
+        <button
+          type="button"
+          class="mobile-cta"
+          (click)="goTo('/jobs')"
+        >
+          {{ translation.currentLanguage === 'es' ? 'Explorar vacantes' : 'Explore jobs' }}
+        </button>
+
+      </div>
+    }
+
+  </nav>
+</header>

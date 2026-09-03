@@ -1,0 +1,6 @@
+{
+  "outputDirectory": "dist/techhire-dashboard-ng17/browser",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "framework": "angular"
+}

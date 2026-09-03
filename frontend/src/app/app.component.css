@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.page-transition-wrapper {
+  min-height: calc(100vh - 6rem);
+  transform-origin: center top;
+  will-change: opacity, transform, filter;
+}
