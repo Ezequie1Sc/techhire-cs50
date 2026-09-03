@@ -1,138 +1,182 @@
+/* =========================================================
+   JOBLY AI CHAT
+   ========================================================= */
+
 :host {
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
-* {
-  box-sizing: border-box;
-}
 
-button,
-input {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-svg {
-  width: 20px;
-  height: 20px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Página */
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
 
 .chat-page {
-  display: flex;
-  justify-content: center;
-  min-height: calc(100vh - 80px);
-  padding: 16px;
-  color: #111111;
-  background: #f6f6f6;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 16px 24px 18px;
+  box-sizing: border-box;
 }
 
 .chat-container {
   display: flex;
   flex-direction: column;
+
   width: min(100%, 1180px);
-  height: calc(100vh - 112px);
-  min-height: 650px;
+  height: 100%;
+  min-height: 0;
+
+  margin: 0 auto;
+
   overflow: hidden;
+
   background: #ffffff;
+
   border: 1px solid #e1e1e1;
   border-radius: 22px;
+
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.02),
-    0 24px 65px rgba(0, 0, 0, 0.075);
+    0 14px 40px rgba(0, 0, 0, 0.055);
 }
 
-/* Encabezado */
+
+/* =========================================================
+   HEADER
+   ========================================================= */
 
 .chat-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  min-height: 84px;
-  padding: 14px 28px;
-  background: #ffffff;
-  border-bottom: 1px solid #ececec;
+  justify-content: space-between;
+
+  flex-shrink: 0;
+
+  min-height: 96px;
+  padding: 18px 22px;
+
+  border-bottom: 1px solid #e9e9e9;
 }
 
-.assistant-info {
+
+.assistant-identity {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 13px;
+
+  min-width: 0;
 }
+
+
+/* =========================================================
+   ICONO JOBLY AI
+   ========================================================= */
 
 .header-ai-icon {
   display: grid;
   place-items: center;
+
   width: 52px;
   height: 52px;
-  flex-shrink: 0;
+
+  flex: 0 0 52px;
+
   color: #ffffff;
-  background: #0d0d0d;
-  border-radius: 16px;
+  background: #080808;
+
+  border-radius: 15px;
+
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.14),
-    inset 0 1px rgba(255, 255, 255, 0.08);
+    0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .header-ai-icon svg {
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
+
   fill: currentColor;
-  stroke: none;
+}
+
+
+/* =========================================================
+   INFORMACIÓN DEL ASISTENTE
+   ========================================================= */
+
+.assistant-details {
+  min-width: 0;
 }
 
 .assistant-title {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 7px;
 }
 
 .assistant-title h1 {
   margin: 0;
+
   color: #111111;
-  font-size: 1.15rem;
+
+  font-size: 1rem;
   font-weight: 800;
-  letter-spacing: -0.025em;
+
+  letter-spacing: -0.035em;
 }
 
 .beta-badge {
-  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 18px;
+  padding: 0 6px;
+
   color: #ffffff;
   background: #111111;
-  border-radius: 999px;
-  font-size: 0.58rem;
+
+  border-radius: 6px;
+
+  font-size: 0.56rem;
   font-weight: 800;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.03em;
 }
 
 .assistant-details p {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
+
   color: #777777;
-  font-size: 0.82rem;
+
+  font-size: 0.72rem;
+  line-height: 1.4;
 }
+
+
+/* =========================================================
+   BOTÓN LIMPIAR
+   ========================================================= */
 
 .clear-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 17px;
+  gap: 7px;
+
+  height: 38px;
+  padding: 0 15px;
+
   color: #333333;
   background: #ffffff;
+
   border: 1px solid #dedede;
-  border-radius: 13px;
-  font-size: 0.8rem;
+  border-radius: 12px;
+
+  font-size: 0.75rem;
   font-weight: 700;
+
+  cursor: pointer;
+
   transition:
     background 160ms ease,
     border-color 160ms ease,
@@ -140,25 +184,38 @@ svg {
 }
 
 .clear-button svg {
-  width: 17px;
-  height: 17px;
+  width: 15px;
+  height: 15px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .clear-button:hover {
-  background: #f5f5f5;
-  border-color: #bdbdbd;
+  background: #f6f6f6;
+  border-color: #c8c8c8;
   transform: translateY(-1px);
 }
 
-/* Área de mensajes */
+
+/* =========================================================
+   ÁREA DE MENSAJES
+   ========================================================= */
 
 .messages {
   flex: 1;
+
   min-height: 0;
+
   overflow-y: auto;
+
   scroll-behavior: smooth;
+
   scrollbar-width: thin;
-  scrollbar-color: #bdbdbd transparent;
+  scrollbar-color: #c8c8c8 transparent;
 }
 
 .messages::-webkit-scrollbar {
@@ -170,87 +227,180 @@ svg {
 }
 
 .messages::-webkit-scrollbar-thumb {
-  background: #bdbdbd;
+  background: #c8c8c8;
   border-radius: 999px;
 }
 
-/* Pantalla inicial */
+
+/* =========================================================
+   PANTALLA DE BIENVENIDA
+   ========================================================= */
 
 .welcome-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: min(100%, 870px);
+
+  width: 100%;
   min-height: 100%;
-  margin: 0 auto;
-  padding: 40px 24px;
+
+  box-sizing: border-box;
+
+  padding: 32px 24px 48px;
+
   text-align: center;
 }
+
+
+/* =========================================================
+   ICONO CENTRAL
+   ========================================================= */
 
 .welcome-icon {
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
-  margin-bottom: 24px;
+
+  width: 52px;
+  height: 52px;
+
+  margin-bottom: 20px;
+
   color: #ffffff;
-  background: #111111;
-  border-radius: 17px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+  background: #090909;
+
+  border-radius: 15px;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.15);
 }
 
 .welcome-icon svg {
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
+
   fill: currentColor;
-  stroke: none;
 }
 
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
+
 .welcome-section h2 {
+  max-width: 850px;
+
   margin: 0;
+
   color: #111111;
-  font-size: clamp(2.3rem, 5vw, 3.7rem);
+
+  font-size: clamp(
+    2.5rem,
+    5vw,
+    3.8rem
+  );
+
   font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 1.05;
+
+  letter-spacing: -0.065em;
+
+  line-height: 1.04;
 }
 
 .welcome-section h2 span {
-  color: #929292;
-  font-family: Georgia, "Times New Roman", serif;
+  color: #969696;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
   font-style: italic;
+
   font-weight: 500;
 }
 
+
+/* =========================================================
+   DESCRIPCIÓN
+   ========================================================= */
+
 .welcome-description {
-  max-width: 580px;
-  margin: 20px auto 32px;
-  color: #707070;
-  font-size: 0.9rem;
-  line-height: 1.65;
+  width: min(100%, 620px);
+
+  margin: 17px auto 30px;
+
+  color: #737373;
+
+  font-size: 0.82rem;
+
+  line-height: 1.6;
 }
+
+
+/* =========================================================
+   CARDS DE BIENVENIDA
+   ========================================================= */
+
+/*
+ * IMPORTANTE:
+ * Solo tenemos 2 cards actualmente.
+ *
+ * Se utiliza repeat(2, ...) y justify-content:center
+ * para que las dos queden realmente centradas.
+ */
 
 .suggestion-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(220px, 260px)
+    );
+
+  justify-content: center;
+
   gap: 18px;
+
   width: 100%;
+
+  margin: 0 auto;
 }
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
 
 .suggestion-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 185px;
-  padding: 24px 20px;
+
+  width: 100%;
+  min-height: 170px;
+
+  padding: 22px 20px;
+
+  box-sizing: border-box;
+
   color: #111111;
+
   text-align: center;
+
   background: #ffffff;
-  border: 1px solid #e2e2e2;
+
+  border: 1px solid #e1e1e1;
+
   border-radius: 17px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.035);
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.035);
+
+  cursor: pointer;
+
   transition:
     transform 180ms ease,
     border-color 180ms ease,
@@ -258,154 +408,123 @@ svg {
 }
 
 .suggestion-card:hover {
-  border-color: #b9b9b9;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.085);
+  border-color: #bdbdbd;
+
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.08);
+
   transform: translateY(-4px);
 }
+
+.suggestion-card:active {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   ICONOS DE LAS CARDS
+   ========================================================= */
 
 .suggestion-icon {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
-  margin-bottom: 17px;
+
+  width: 48px;
+  height: 48px;
+
+  margin-bottom: 14px;
+
   color: #111111;
+
   background: #eeeeee;
+
   border-radius: 50%;
+
   transition:
-    color 180ms ease,
     background 180ms ease,
+    color 180ms ease,
     transform 180ms ease;
 }
 
 .suggestion-icon svg {
-  width: 23px;
-  height: 23px;
+  width: 21px;
+  height: 21px;
+
+  fill: none;
+
+  stroke: currentColor;
+
   stroke-width: 2;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .suggestion-card:hover .suggestion-icon {
   color: #ffffff;
   background: #111111;
+
   transform: scale(1.04);
 }
 
+
+/* =========================================================
+   TEXTO DE LAS CARDS
+   ========================================================= */
+
 .suggestion-card strong {
-  margin-bottom: 9px;
-  font-size: 0.93rem;
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #111111;
+
+  font-size: 0.88rem;
+
   font-weight: 800;
+
+  letter-spacing: -0.02em;
 }
 
 .suggestion-card small {
-  max-width: 220px;
-  color: #737373;
-  font-size: 0.73rem;
+  display: block;
+
+  width: 100%;
+  max-width: 215px;
+
+  color: #777777;
+
+  font-size: 0.69rem;
+
   line-height: 1.55;
 }
 
-/* Preview del CV en generación */
 
-.cv-preview-section {
-  width: min(100%, 1000px);
-  margin: 20px auto;
-  padding: 24px;
-  background: #ffffff;
-  border: 1px solid #e2e2e2;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-}
-
-.cv-preview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #e8e8e8;
-}
-
-.cv-preview-header h3 {
-  margin: 0;
-  color: #111111;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.cv-progress-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.78rem;
-  color: #666666;
-}
-
-.progress-text {
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.progress-bar {
-  width: 120px;
-  height: 6px;
-  background: #e9e9e9;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #111111, #333333);
-  border-radius: 999px;
-  transition: width 0.3s ease;
-}
-
-.progress-percentage {
-  font-weight: 700;
-  color: #111111;
-  min-width: 40px;
-  text-align: right;
-}
-
-.cv-preview-content {
-  max-height: 500px;
-  overflow-y: auto;
-  padding: 20px;
-  background: #fafafa;
-  border: 1px solid #e8e8e8;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  color: #333333;
-}
-
-.cv-preview-content::-webkit-scrollbar {
-  width: 6px;
-}
-
-.cv-preview-content::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.cv-preview-content::-webkit-scrollbar-thumb {
-  background: #c0c0c0;
-  border-radius: 999px;
-}
-
-/* Conversación */
+/* =========================================================
+   CONVERSACIÓN
+   ========================================================= */
 
 .conversation {
-  width: min(100%, 1000px);
+  width: min(100%, 980px);
+
   min-height: 100%;
+
   margin: 0 auto;
-  padding: 34px 28px 45px;
+
+  padding: 32px 28px 42px;
+
+  box-sizing: border-box;
 }
 
 .message-row {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+
+  gap: 11px;
+
   width: 100%;
-  margin-bottom: 23px;
+
+  margin-bottom: 22px;
 }
 
 .assistant-row {
@@ -420,6 +539,7 @@ svg {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
   max-width: min(76%, 730px);
 }
 
@@ -427,169 +547,254 @@ svg {
   align-items: flex-end;
 }
 
+
+/* =========================================================
+   AVATARES
+   ========================================================= */
+
 .message-avatar {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
+
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
   overflow: hidden;
+
   border-radius: 50%;
 }
 
 .ai-avatar {
-  background: #070707;
-  border: 1px solid #181818;
-  box-shadow: 0 5px 13px rgba(0, 0, 0, 0.12);
+  color: #ffffff;
+  background: #080808;
+
+  border: 1px solid #171717;
+
+  box-shadow:
+    0 5px 13px rgba(0, 0, 0, 0.1);
 }
 
 .ai-avatar img {
   display: block;
+
   width: 100%;
   height: 100%;
-  padding: 6px;
+
+  padding: 8px;
+
   object-fit: contain;
-  object-position: center;
 }
 
 .user-avatar {
   color: #ffffff;
   background: #111111;
+
   border: 1px solid #222222;
-  font-size: 0.89rem;
+
+  font-size: 0.82rem;
   font-weight: 800;
-  box-shadow: 0 5px 13px rgba(0, 0, 0, 0.12);
 }
+
+
+/* =========================================================
+   MENSAJES
+   ========================================================= */
 
 .message {
   width: fit-content;
   max-width: 100%;
-  padding: 14px 18px;
-  border-radius: 17px;
-  font-size: 0.9rem;
+
+  padding: 13px 17px;
+
+  border-radius: 16px;
+
+  font-size: 0.86rem;
 }
 
 .message p {
   margin: 0;
+
   line-height: 1.55;
+
   white-space: pre-line;
 }
 
 .assistant-message {
   color: #1f1f1f;
-  background: linear-gradient(
-    180deg,
-    #f8f8f8,
-    #f3f3f3
-  );
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8f8f8,
+      #f3f3f3
+    );
+
   border: 1px solid #e2e2e2;
+
   border-bottom-left-radius: 6px;
 }
 
 .user-message {
   color: #ffffff;
-  background: linear-gradient(
-    135deg,
-    #050505,
-    #171717
-  );
+
+  background:
+    linear-gradient(
+      135deg,
+      #050505,
+      #171717
+    );
+
   border: 1px solid #111111;
+
   border-bottom-right-radius: 6px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .message-time {
   display: block;
-  margin-top: 7px;
+
+  margin-top: 6px;
+
   padding: 0 5px;
+
   color: #999999;
-  font-size: 0.66rem;
+
+  font-size: 0.63rem;
+
   font-weight: 500;
 }
 
-/* Vacantes */
+
+/* =========================================================
+   VACANTES
+   ========================================================= */
 
 .jobs-list {
   display: grid;
+
   gap: 14px;
+
   width: min(680px, 65vw);
-  margin-top: 17px;
+
+  margin-top: 16px;
 }
 
 .job-card {
   padding: 18px;
+
   color: #222222;
+
   background: #ffffff;
+
   border: 1px solid #dedede;
+
   border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.045);
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.045);
 }
 
 .job-card-header {
   display: flex;
   align-items: flex-start;
+
   gap: 11px;
+
   margin-bottom: 14px;
 }
 
 .job-company-avatar {
   display: grid;
   place-items: center;
+
   width: 41px;
   height: 41px;
+
   flex-shrink: 0;
+
   color: #ffffff;
   background: #111111;
+
   border-radius: 11px;
+
   font-weight: 800;
 }
 
 .job-main-info {
   flex: 1;
+
   min-width: 0;
 }
 
 .job-company {
   display: block;
+
   margin-bottom: 4px;
+
   overflow: hidden;
+
   color: #777777;
+
   font-size: 0.72rem;
+
   font-weight: 700;
+
   text-overflow: ellipsis;
+
   white-space: nowrap;
 }
 
 .job-card h2 {
   margin: 0;
+
   font-size: 0.95rem;
+
   line-height: 1.35;
 }
 
 .compatibility {
   min-width: 57px;
+
   padding: 6px 9px;
+
   color: #111111;
+
   background: #f2f2f2;
+
   border: 1px solid #dddddd;
+
   border-radius: 999px;
+
   font-size: 0.76rem;
+
   font-weight: 800;
+
   text-align: center;
 }
 
 .compatibility-bar {
   height: 5px;
+
   margin-bottom: 18px;
+
   overflow: hidden;
+
   background: #e9e9e9;
+
   border-radius: 999px;
 }
 
 .compatibility-bar span {
   display: block;
+
   height: 100%;
+
   background: #111111;
+
   border-radius: inherit;
 }
 
@@ -599,62 +804,95 @@ svg {
 
 .job-label {
   display: block;
+
   margin-bottom: 8px;
+
   color: #777777;
+
   font-size: 0.67rem;
+
   font-weight: 800;
+
   letter-spacing: 0.08em;
+
   text-transform: uppercase;
 }
 
 .skills {
   display: flex;
+
   flex-wrap: wrap;
+
   gap: 6px;
 }
 
 .skill {
   padding: 5px 9px;
+
   border-radius: 999px;
+
   font-size: 0.7rem;
+
   font-weight: 650;
 }
 
 .strength {
   color: #252525;
+
   background: #eeeeee;
+
   border: 1px solid #dddddd;
 }
 
 .missing {
   color: #666666;
+
   background: #ffffff;
+
   border: 1px dashed #bbbbbb;
 }
 
 .empty-text {
   color: #999999;
+
   font-size: 0.72rem;
 }
 
+
+/* =========================================================
+   ACCIONES DE VACANTE
+   ========================================================= */
+
 .job-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap: 9px;
+
   margin-top: 18px;
 }
 
 .analyze-button,
 .view-job-link {
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   min-height: 40px;
+
   padding: 0 13px;
+
   border-radius: 10px;
+
   font-size: 0.76rem;
+
   font-weight: 750;
+
   text-decoration: none;
+
   transition:
     background 150ms ease,
     transform 150ms ease;
@@ -662,43 +900,62 @@ svg {
 
 .analyze-button {
   color: #ffffff;
+
   background: #111111;
+
   border: 1px solid #111111;
+
+  cursor: pointer;
 }
 
 .analyze-button:hover {
   background: #2b2b2b;
+
   transform: translateY(-1px);
 }
 
 .view-job-link {
   gap: 5px;
+
   color: #222222;
+
   background: #ffffff;
+
   border: 1px solid #d8d8d8;
 }
 
 .view-job-link:hover {
   background: #f3f3f3;
+
   transform: translateY(-1px);
 }
 
-/* Escribiendo */
+
+/* =========================================================
+   TYPING
+   ========================================================= */
 
 .typing {
   display: flex;
+
   align-items: center;
+
   gap: 6px;
+
   min-width: 75px;
-  min-height: 48px;
+  min-height: 46px;
 }
 
 .typing span {
   width: 7px;
   height: 7px;
+
   background: #b5b5b5;
+
   border-radius: 50%;
-  animation: typing 1.2s infinite ease-in-out;
+
+  animation:
+    typing 1.2s infinite ease-in-out;
 }
 
 .typing span:nth-child(2) {
@@ -713,112 +970,171 @@ svg {
   0%,
   60%,
   100% {
-    opacity: 0.4;
+    opacity: 0.35;
     transform: translateY(0);
   }
 
   30% {
     opacity: 1;
-    transform: translateY(-4px);
+    transform: translateY(-3px);
   }
 }
 
-/* Acciones rápidas */
+
+/* =========================================================
+   ACCIONES RÁPIDAS
+   ========================================================= */
 
 .quick-actions {
   display: flex;
-  gap: 11px;
-  overflow-x: auto;
-  padding: 13px 30px;
-  background: #ffffff;
-  border-top: 1px solid #ebebeb;
-  scrollbar-width: none;
-}
 
-.quick-actions::-webkit-scrollbar {
-  display: none;
+  align-items: center;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+
+  padding: 10px 20px;
+
+  border-top: 1px solid #eeeeee;
 }
 
 .quick-actions button {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 43px;
-  flex-shrink: 0;
-  padding: 0 17px;
-  color: #252525;
-  background: #ffffff;
-  border: 1px solid #dedede;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  transition:
-    color 150ms ease,
-    background 150ms ease,
-    border-color 150ms ease,
-    transform 150ms ease;
-}
 
-.quick-actions button svg {
-  width: 18px;
-  height: 18px;
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  min-height: 34px;
+
+  padding: 0 12px;
+
+  color: #555555;
+
+  background: #ffffff;
+
+  border: 1px solid #dedede;
+
+  border-radius: 999px;
+
+  font-size: 0.69rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
 }
 
 .quick-actions button:hover {
-  color: #ffffff;
-  background: #111111;
-  border-color: #111111;
-  transform: translateY(-1px);
+  color: #111111;
+
+  background: #f5f5f5;
+
+  border-color: #c9c9c9;
 }
 
-/* Footer */
+.quick-actions svg {
+  width: 15px;
+  height: 15px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
 
 .chat-footer {
   display: flex;
+
   align-items: center;
-  gap: 12px;
-  padding: 15px 30px 9px;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  padding: 12px 22px;
+
+  border-top: 1px solid #e9e9e9;
+
   background: #ffffff;
-  border-top: 1px solid #ebebeb;
 }
+
+
+/* =========================================================
+   UPLOAD CV
+   ========================================================= */
 
 .upload-button {
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
-  gap: 9px;
-  min-height: 52px;
+
+  gap: 7px;
+
+  height: 42px;
+
+  padding: 0 15px;
+
   flex-shrink: 0;
-  padding: 0 18px;
-  color: #222222;
+
+  color: #444444;
+
   background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 15px;
-  font-size: 0.8rem;
+
+  border: 1px solid #dedede;
+
+  border-radius: 12px;
+
+  font-size: 0.72rem;
+
   font-weight: 750;
+
   cursor: pointer;
+
   transition:
     background 150ms ease,
-    border-color 150ms ease,
-    transform 150ms ease;
+    border-color 150ms ease;
 }
 
 .upload-button:hover {
-  background: #f4f4f4;
-  border-color: #bbbbbb;
-  transform: translateY(-1px);
+  background: #f5f5f5;
+
+  border-color: #c7c7c7;
 }
 
 .upload-button.uploaded {
-  color: #ffffff;
-  background: #111111;
-  border-color: #111111;
+  color: #111111;
+
+  border-color: #c8c8c8;
 }
 
 .upload-button.disabled {
+  opacity: 0.55;
+
   cursor: not-allowed;
-  opacity: 0.5;
 }
 
 .upload-button input {
@@ -826,118 +1142,244 @@ svg {
 }
 
 .upload-button svg {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
 }
+
+
+/* =========================================================
+   FORMULARIO
+   ========================================================= */
 
 .message-form {
   display: flex;
-  flex: 1;
+
   align-items: center;
-  min-width: 0;
-  padding: 5px 6px 5px 19px;
+
+  gap: 8px;
+
+  flex: 1;
+
+  height: 42px;
+
+  padding: 0 5px 0 15px;
+
   background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 16px;
+
+  border: 1px solid #dedede;
+
+  border-radius: 12px;
+
   transition:
     border-color 150ms ease,
     box-shadow 150ms ease;
 }
 
 .message-form:focus-within {
-  border-color: #aaaaaa;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.045);
+  border-color: #bdbdbd;
+
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, 0.035);
 }
 
 .message-form input {
-  flex: 1;
+  width: 100%;
+
+  height: 100%;
+
   min-width: 0;
-  height: 42px;
+
   padding: 0;
-  color: #171717;
+
+  color: #222222;
+
   background: transparent;
-  border: none;
-  outline: none;
-  font-size: 0.88rem;
+
+  border: 0;
+
+  outline: 0;
+
+  font-size: 0.76rem;
 }
 
 .message-form input::placeholder {
-  color: #999999;
+  color: #a2a2a2;
 }
+
+.message-form input:disabled {
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   BOTÓN ENVIAR
+   ========================================================= */
 
 .send-button {
   display: grid;
+
   place-items: center;
-  width: 46px;
-  height: 46px;
-  flex-shrink: 0;
+
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
   color: #ffffff;
+
   background: #111111;
-  border: none;
-  border-radius: 13px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
   transition:
     background 150ms ease,
-    transform 150ms ease,
-    opacity 150ms ease;
-}
-
-.send-button svg {
-  width: 20px;
-  height: 20px;
+    transform 150ms ease;
 }
 
 .send-button:hover:not(:disabled) {
   background: #2b2b2b;
-  transform: scale(1.03);
+
+  transform: translateY(-1px);
 }
 
 .send-button:disabled {
+  color: #ffffff;
+
+  background: #bcbcbc;
+
   cursor: not-allowed;
-  opacity: 0.3;
+
+  transform: none;
 }
 
+.send-button svg {
+  width: 16px;
+  height: 16px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   DISCLAIMER
+   ========================================================= */
+
 .ai-disclaimer {
+  flex-shrink: 0;
+
   margin: 0;
-  padding: 5px 20px 12px;
-  color: #a0a0a0;
-  background: #ffffff;
-  font-size: 0.64rem;
+
+  padding: 0 20px 9px;
+
+  color: #a2a2a2;
+
+  font-size: 0.57rem;
+
+  line-height: 1.4;
+
   text-align: center;
 }
 
-/* Tablet */
 
-@media (max-width: 800px) {
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
   .chat-page {
-    padding: 0;
+    padding: 10px;
   }
 
   .chat-container {
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
+    border-radius: 18px;
+  }
+
+  .suggestion-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(190px, 240px)
+      );
+  }
+
+  .welcome-section h2 {
+    font-size: clamp(
+      2.3rem,
+      6vw,
+      3.3rem
+    );
+  }
+
+}
+
+
+@media (max-width: 640px) {
+
+  .chat-page {
+    padding: 7px;
   }
 
   .chat-header {
-    min-height: 72px;
-    padding: 11px 15px;
+    min-height: 76px;
+
+    padding: 14px 15px;
   }
 
   .header-ai-icon {
     width: 44px;
     height: 44px;
+
+    flex-basis: 44px;
+
     border-radius: 13px;
   }
 
+  .header-ai-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .assistant-title h1 {
+    font-size: 0.9rem;
+  }
+
   .assistant-details p {
-    display: none;
+    font-size: 0.65rem;
+  }
+
+  .beta-badge {
+    height: 16px;
+
+    font-size: 0.5rem;
   }
 
   .clear-button {
-    width: 43px;
+    width: 38px;
+    height: 38px;
+
     padding: 0;
   }
 
@@ -945,8 +1387,59 @@ svg {
     display: none;
   }
 
+
+  .welcome-section {
+    justify-content: flex-start;
+
+    min-height: 100%;
+
+    padding: 50px 15px 35px;
+  }
+
+  .welcome-icon {
+    width: 50px;
+    height: 50px;
+
+    margin-bottom: 18px;
+  }
+
+  .welcome-section h2 {
+    font-size: 2.35rem;
+
+    letter-spacing: -0.06em;
+  }
+
+  .welcome-description {
+    margin: 15px auto 26px;
+
+    font-size: 0.76rem;
+  }
+
+
+  .suggestion-grid {
+    grid-template-columns: 1fr;
+
+    width: min(100%, 330px);
+
+    gap: 11px;
+  }
+
+  .suggestion-card {
+    min-height: 135px;
+
+    padding: 18px;
+  }
+
+  .suggestion-icon {
+    width: 44px;
+    height: 44px;
+
+    margin-bottom: 11px;
+  }
+
+
   .conversation {
-    padding: 24px 14px 35px;
+    padding: 25px 15px 35px;
   }
 
   .message-content {
@@ -954,31 +1447,41 @@ svg {
   }
 
   .message-avatar {
-    width: 36px;
-    height: 36px;
-    flex-basis: 36px;
+    width: 35px;
+    height: 35px;
+
+    flex-basis: 35px;
   }
 
   .message {
     padding: 12px 14px;
-    font-size: 0.84rem;
+
+    font-size: 0.78rem;
   }
 
-  .jobs-list {
-    width: min(100%, 72vw);
-  }
 
   .quick-actions {
+    justify-content: flex-start;
+
+    overflow-x: auto;
+
+    flex-wrap: nowrap;
+
+    padding: 8px 12px;
+  }
+
+  .quick-actions button {
+    flex-shrink: 0;
+  }
+
+
+  .chat-footer {
     padding: 10px 12px;
   }
 
-  .chat-footer {
-    gap: 8px;
-    padding: 11px 11px 6px;
-  }
-
   .upload-button {
-    width: 50px;
+    width: 42px;
+
     padding: 0;
   }
 
@@ -986,105 +1489,53 @@ svg {
     display: none;
   }
 
-  .cv-preview-section {
-    margin: 15px;
-    padding: 18px;
+  .message-form {
+    height: 40px;
   }
 
-  .cv-preview-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .send-button {
+    width: 32px;
+    height: 32px;
+
+    flex-basis: 32px;
   }
 
-  .cv-progress-info {
+  .ai-disclaimer {
+    padding-bottom: 7px;
+
+    font-size: 0.53rem;
+  }
+
+
+  .jobs-list {
     width: 100%;
-    justify-content: space-between;
-  }
-
-  .progress-bar {
-    flex: 1;
-    max-width: 150px;
-  }
-}
-
-/* Móvil */
-
-@media (max-width: 520px) {
-  .assistant-title h1 {
-    font-size: 0.93rem;
-  }
-
-  .welcome-section {
-    justify-content: flex-start;
-    padding: 35px 15px 28px;
-  }
-
-  .welcome-section h2 {
-    font-size: 2.25rem;
-  }
-
-  .welcome-description {
-    font-size: 0.82rem;
-  }
-
-  .suggestion-grid {
-    grid-template-columns: 1fr;
-    gap: 11px;
-  }
-
-  .suggestion-card {
-    min-height: 140px;
-    padding: 19px;
-  }
-
-  .suggestion-icon {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
-  }
-
-  .message-row {
-    gap: 8px;
-    margin-bottom: 18px;
-  }
-
-  .message-content {
-    max-width: 83%;
-  }
-
-  .message-avatar {
-    width: 33px;
-    height: 33px;
-    flex-basis: 33px;
-  }
-
-  .message {
-    font-size: 0.8rem;
-  }
-
-  .quick-actions button {
-    min-height: 38px;
-    padding: 0 13px;
-    font-size: 0.72rem;
   }
 
   .job-actions {
     grid-template-columns: 1fr;
   }
 
-  .jobs-list {
-    width: 68vw;
+}
+
+
+@media (max-width: 400px) {
+
+  .welcome-section {
+    padding-top: 38px;
   }
 
-  .cv-preview-section {
-    margin: 10px;
-    padding: 14px;
+  .welcome-section h2 {
+    font-size: 2.05rem;
   }
 
-  .cv-preview-content {
-    max-height: 350px;
-    padding: 14px;
-    font-size: 0.8rem;
+  .welcome-description {
+    max-width: 300px;
+
+    font-size: 0.72rem;
   }
+
+  .suggestion-grid {
+    width: 100%;
+  }
+
 }
