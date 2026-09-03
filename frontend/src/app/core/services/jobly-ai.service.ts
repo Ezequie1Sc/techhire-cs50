@@ -2,13 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// --- INTERFACES EXISTENTES ---
+// ============================================================
+// ANÁLISIS DE CV
+// ============================================================
+
 export interface CvAnalysisResponse {
   success: boolean;
   filename: string;
   text: string;
   skills: string[];
 }
+
+// ============================================================
+// EMPLEOS
+// ============================================================
 
 export interface Job {
   slug: string;
@@ -25,12 +32,14 @@ export interface Job {
 
 export interface JobResponse {
   data: Job[];
+
   links?: {
     first: string;
     last: string;
     prev: string | null;
     next: string | null;
   };
+
   meta?: {
     current_page: number;
     from: number;
@@ -41,6 +50,10 @@ export interface JobResponse {
     total: number;
   };
 }
+
+// ============================================================
+// RECOMENDACIONES
+// ============================================================
 
 export interface RecommendedJob {
   id: string;
@@ -66,73 +79,82 @@ export interface RecommendationsResponse {
   recommended_jobs: RecommendedJob[];
 }
 
+// ============================================================
+// CHAT
+// ============================================================
+
 export interface ChatResponse {
   success: boolean;
   response: string;
 }
 
-// --- NUEVA INTERFAZ PARA EL HISTORIAL DEL CHAT ---
 export interface ChatHistoryMessage {
   role: 'user' | 'assistant';
   content: string;
 }
 
-// --- NUEVAS INTERFACES PARA LA CREACIÓN DEL CV (ENTREVISTA) ---
-export interface CvGeneratorStartResponse {
-  success: boolean;
-  type: 'welcome';
-  message: string;
-  buttons: string[];
-  cv_preview: string;
-}
-
-export interface CvGeneratorAnswerResponse {
-  success: boolean;
-  is_complete?: boolean;          // Solo aparece si terminó
-  message?: string;               // Mensaje de finalización
-  step?: number;                  // Número de paso actual (1 a 8)
-  step_name?: string;             // Nombre del paso (ej: "Educación")
-  progress?: number;              // Porcentaje de avance (ej: 50)
-  question?: string;              // La pregunta que debe mostrar el chat
-  placeholder?: string;           // Texto de placeholder para el input
-  cv_preview: string;             // HTML del CV estilo Harvard actualizado
-}
+// ============================================================
+// SERVICIO
+// ============================================================
 
 @Injectable({
   providedIn: 'root'
 })
 export class JoblyAiService {
- private readonly aiApiUrl = 'https://jobly-ai-api.onrender.com';
-  
+
+  private readonly aiApiUrl = 'https://jobly-ai-api.onrender.com';
 
   private readonly jobsApiUrl = '/api/jobs';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient
+  ) {}
 
-  // --- MÉTODOS EXISTENTES ---
+  // ==========================================================
+  // OBTENER EMPLEOS
+  // ==========================================================
 
   getJobs(): Observable<JobResponse> {
     return this.http.get<JobResponse>(this.jobsApiUrl);
   }
 
+  // ==========================================================
+  // ANALIZAR CV
+  // ==========================================================
+
   analyzeCv(file: File): Observable<CvAnalysisResponse> {
+
     const formData = new FormData();
+
     formData.append('file', file);
+
     return this.http.post<CvAnalysisResponse>(
       `${this.aiApiUrl}/cv/analyze`,
       formData
     );
   }
 
+  // ==========================================================
+  // OBTENER RECOMENDACIONES
+  // ==========================================================
+
   getRecommendations(
     cvSkills: string[],
     jobs: Job[]
   ): Observable<RecommendationsResponse> {
+
     return this.http.post<RecommendationsResponse>(
       `${this.aiApiUrl}/recommendations/`,
-      { cv_skills: cvSkills, jobs }
+      {
+        cv_skills: cvSkills,
+        jobs
+      }
     );
   }
+
+  // ==========================================================
+  // CHAT CON JOBLY AI
+  // ==========================================================
 
   sendMessage(
     message: string,
@@ -140,6 +162,7 @@ export class JoblyAiService {
     cvSkills: string[],
     job: Job | null = null
   ): Observable<ChatResponse> {
+
     return this.http.post<ChatResponse>(
       `${this.aiApiUrl}/chat/`,
       {
@@ -148,31 +171,6 @@ export class JoblyAiService {
         cv_skills: cvSkills,
         job
       }
-    );
-  }
-
-  // --- NUEVOS MÉTODOS PARA CREACIÓN DE CV (ENTREVISTA CON IA) ---
-
-  /**
-   * Inicia el proceso de creación de CV.
-   * @param userId Un identificador único para mantener la sesión (ej: un UUID o timestamp + random).
-   */
-  startCvGeneration(userId: string): Observable<CvGeneratorStartResponse> {
-    return this.http.post<CvGeneratorStartResponse>(
-      `${this.aiApiUrl}/cv-generator/start`,
-      { user_id: userId }
-    );
-  }
-
-  /**
-   * Envía la respuesta del usuario y obtiene la siguiente pregunta + el CV actualizado.
-   * @param userId El mismo identificador único usado en startCvGeneration.
-   * @param answer La respuesta que escribió el usuario en el input.
-   */
-  sendCvAnswer(userId: string, answer: string): Observable<CvGeneratorAnswerResponse> {
-    return this.http.post<CvGeneratorAnswerResponse>(
-      `${this.aiApiUrl}/cv-generator/answer`,
-      { user_id: userId, answer: answer }
     );
   }
 }
