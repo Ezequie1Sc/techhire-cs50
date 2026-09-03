@@ -53,32 +53,14 @@ export class ChatComponent {
 
   constructor(
     private readonly joblyAiService: JoblyAiService,
-    public translation: TranslationService
+    public readonly translation: TranslationService
   ) {
     this.loadSession();
 
     if (this.messages.length === 0) {
       this.addAssistantMessage(
-        this.getWelcomeMessage()
-      );
-    }
-  }
-
-  // =========================================================
-  // TRADUCCIONES
-  // =========================================================
-
-  private get isEnglish(): boolean {
-    return this.translation.currentLanguage === 'en';
-  }
-
-  private text(es: string, en: string): string {
-    return this.isEnglish ? en : es;
-  }
-
-  private getWelcomeMessage(): string {
-    return this.text(
-      `Soy Jobly AI 🤖.
+        this.isSpanish
+          ? `Soy Jobly AI 🤖.
 
 Puedo ayudarte a:
 
@@ -88,24 +70,32 @@ Encontrar vacantes compatibles con tu perfil 🎯.
 Resolver dudas sobre programación y tecnología 💻.
 Prepararte para entrevistas y mejorar tu perfil profesional 🚀.
 
-Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`,
-
-      `I'm Jobly AI 🤖.
+Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
+          : `I'm Jobly AI 🤖.
 
 I can help you:
 
-Search for jobs 💼.
+Find jobs 💼.
 Analyze your CV 📄.
 Find job opportunities that match your profile 🎯.
 Answer questions about programming and technology 💻.
 Prepare for interviews and improve your professional profile 🚀.
 
 You can start by asking a question or uploading your CV whenever you want.`
-    );
+      );
+    }
   }
 
   // =========================================================
-  // SUBIR Y ANALIZAR CV
+  // IDIOMA
+  // =========================================================
+
+  private get isSpanish(): boolean {
+    return this.translation.currentLanguage === 'es';
+  }
+
+  // =========================================================
+  // SUBIR CV
   // =========================================================
 
   onFileSelected(event: Event): void {
@@ -118,10 +108,9 @@ You can start by asking a question or uploading your CV whenever you want.`
 
     if (file.type !== 'application/pdf') {
       this.addAssistantMessage(
-        this.text(
-          'El archivo debe estar en formato PDF.',
-          'The file must be in PDF format.'
-        )
+        this.isSpanish
+          ? 'El archivo debe estar en formato PDF.'
+          : 'The file must be in PDF format.'
       );
 
       input.value = '';
@@ -132,10 +121,9 @@ You can start by asking a question or uploading your CV whenever you want.`
 
     if (file.size > maxSize) {
       this.addAssistantMessage(
-        this.text(
-          'El PDF no puede superar los 5 MB.',
-          'The PDF cannot exceed 5 MB.'
-        )
+        this.isSpanish
+          ? 'El PDF no puede superar los 5 MB.'
+          : 'The PDF cannot exceed 5 MB.'
       );
 
       input.value = '';
@@ -144,14 +132,15 @@ You can start by asking a question or uploading your CV whenever you want.`
 
     this.selectedFile = file;
 
-    /*
-     * Permite volver a seleccionar el mismo archivo
-     * posteriormente.
-     */
+    // Permite volver a seleccionar el mismo archivo.
     input.value = '';
 
     this.analyzeCv();
   }
+
+  // =========================================================
+  // ANALIZAR CV
+  // =========================================================
 
   analyzeCv(): void {
     if (!this.selectedFile || this.isAnalyzing) {
@@ -160,9 +149,7 @@ You can start by asking a question or uploading your CV whenever you want.`
 
     this.isAnalyzing = true;
 
-    /*
-     * Al cambiar el CV se eliminan los resultados anteriores.
-     */
+    // El nuevo CV reemplaza los resultados anteriores.
     this.availableJobs = [];
     this.recommendedJobs = [];
     this.selectedJob = null;
@@ -171,17 +158,15 @@ You can start by asking a question or uploading your CV whenever you want.`
     localStorage.removeItem('jobly_selected_job');
 
     this.addUserMessage(
-      this.text(
-        `He subido mi CV: ${this.selectedFile.name}`,
-        `I uploaded my CV: ${this.selectedFile.name}`
-      )
+      this.isSpanish
+        ? `He subido mi CV: ${this.selectedFile.name}`
+        : `I uploaded my CV: ${this.selectedFile.name}`
     );
 
     this.addAssistantMessage(
-      this.text(
-        'Estoy analizando tu CV...',
-        'I am analyzing your CV...'
-      )
+      this.isSpanish
+        ? 'Estoy analizando tu CV...'
+        : 'I am analyzing your CV...'
     );
 
     this.joblyAiService
@@ -190,6 +175,7 @@ You can start by asking a question or uploading your CV whenever you want.`
         next: response => {
           this.isAnalyzing = false;
           this.cvUploaded = true;
+
           this.cvSkills = response.skills ?? [];
 
           localStorage.setItem(
@@ -199,20 +185,18 @@ You can start by asking a question or uploading your CV whenever you want.`
 
           if (this.cvSkills.length === 0) {
             this.addAssistantMessage(
-              this.text(
-                'Pude leer tu CV, pero no encontré habilidades técnicas conocidas para compararlas con las vacantes.',
-                'I was able to read your CV, but I could not find known technical skills to compare with job opportunities.'
-              )
+              this.isSpanish
+                ? 'Pude leer tu CV, pero no encontré habilidades técnicas conocidas para compararlas con las vacantes.'
+                : 'I could read your CV, but I could not find known technical skills to compare with the available jobs.'
             );
 
             return;
           }
 
           this.addAssistantMessage(
-            this.text(
-              `He detectado estas habilidades: ${this.cvSkills.join(', ')}.`,
-              `I detected these skills: ${this.cvSkills.join(', ')}.`
-            )
+            this.isSpanish
+              ? `He detectado estas habilidades: ${this.cvSkills.join(', ')}.`
+              : `I detected these skills: ${this.cvSkills.join(', ')}.`
           );
 
           this.findRecommendedJobs();
@@ -227,10 +211,9 @@ You can start by asking a question or uploading your CV whenever you want.`
           this.isAnalyzing = false;
 
           this.addAssistantMessage(
-            this.text(
-              'No pude analizar el CV. Verifica que la API esté activa y que el archivo sea un PDF válido.',
-              'I could not analyze the CV. Make sure the API is active and that the file is a valid PDF.'
-            )
+            this.isSpanish
+              ? 'No pude analizar el CV. Verifica que la API esté activa y que el archivo sea un PDF válido.'
+              : 'I could not analyze the CV. Make sure the API is active and that the file is a valid PDF.'
           );
         }
       });
@@ -248,10 +231,9 @@ You can start by asking a question or uploading your CV whenever you want.`
     this.isLoadingJobs = true;
 
     this.addAssistantMessage(
-      this.text(
-        'Ahora estoy consultando las vacantes de Adzuna y Arbeitnow para encontrar las mejores para ti...',
-        'I am now checking Adzuna and Arbeitnow job opportunities to find the best matches for you...'
-      )
+      this.isSpanish
+        ? 'Ahora estoy consultando las vacantes para encontrar las mejores oportunidades para ti...'
+        : 'I am now checking available jobs to find the best opportunities for you...'
     );
 
     this.joblyAiService
@@ -264,10 +246,9 @@ You can start by asking a question or uploading your CV whenever you want.`
             this.isLoadingJobs = false;
 
             this.addAssistantMessage(
-              this.text(
-                'No encontré vacantes disponibles en este momento.',
-                'I could not find any available job opportunities at the moment.'
-              )
+              this.isSpanish
+                ? 'No encontré vacantes disponibles en este momento.'
+                : 'I could not find any available jobs at the moment.'
             );
 
             return;
@@ -278,24 +259,23 @@ You can start by asking a question or uploading your CV whenever you want.`
 
         error: error => {
           console.error(
-            'Error al obtener vacantes:',
+            'Error al obtener las vacantes:',
             error
           );
 
           this.isLoadingJobs = false;
 
           this.addAssistantMessage(
-            this.text(
-              'No pude obtener las vacantes. Verifica que el endpoint /api/jobs esté funcionando.',
-              'I could not retrieve the job opportunities. Please check that the /api/jobs endpoint is working.'
-            )
+            this.isSpanish
+              ? 'No pude consultar las vacantes. Verifica que el servicio de empleos esté funcionando.'
+              : 'I could not retrieve the available jobs. Make sure the job service is working.'
           );
         }
       });
   }
 
   // =========================================================
-  // RECOMENDACIONES
+  // CALCULAR RECOMENDACIONES
   // =========================================================
 
   private requestRecommendations(): void {
@@ -318,10 +298,9 @@ You can start by asking a question or uploading your CV whenever you want.`
 
           if (this.recommendedJobs.length === 0) {
             this.addAssistantMessage(
-              this.text(
-                'No encontré vacantes compatibles con las habilidades detectadas.',
-                'I could not find job opportunities that match the detected skills.'
-              )
+              this.isSpanish
+                ? 'No encontré vacantes compatibles con las habilidades detectadas.'
+                : 'I could not find jobs compatible with the skills detected in your CV.'
             );
 
             return;
@@ -329,19 +308,17 @@ You can start by asking a question or uploading your CV whenever you want.`
 
           this.messages.push({
             role: 'assistant',
-            content: this.text(
-              `Encontré ${this.recommendedJobs.length} vacantes que coinciden mejor con tu perfil:`,
-              `I found ${this.recommendedJobs.length} job opportunities that best match your profile:`
-            ),
+            content: this.isSpanish
+              ? `Encontré ${this.recommendedJobs.length} vacantes que coinciden mejor con tu perfil:`
+              : `I found ${this.recommendedJobs.length} jobs that best match your profile:`,
             type: 'jobs',
             jobs: this.recommendedJobs
           });
 
           this.addAssistantMessage(
-            this.text(
-              'Selecciona una vacante para analizarla o pregúntame cómo puedes mejorar tu perfil profesional.',
-              'Select a job opportunity to analyze it or ask me how you can improve your professional profile.'
-            )
+            this.isSpanish
+              ? 'Selecciona una vacante para analizarla o pregúntame cómo puedes mejorar tu perfil profesional.'
+              : 'Select a job to analyze it or ask me how you can improve your professional profile.'
           );
 
           this.saveMessages();
@@ -357,10 +334,9 @@ You can start by asking a question or uploading your CV whenever you want.`
           this.isLoadingJobs = false;
 
           this.addAssistantMessage(
-            this.text(
-              'Encontré las vacantes, pero no pude calcular cuáles son las más compatibles.',
-              'I found the job opportunities, but I could not calculate which ones are the best matches.'
-            )
+            this.isSpanish
+              ? 'Encontré las vacantes, pero no pude calcular cuáles son las más compatibles.'
+              : 'I found the jobs, but I could not calculate which ones are the best match.'
           );
         }
       });
@@ -379,10 +355,9 @@ You can start by asking a question or uploading your CV whenever you want.`
 
     if (!fullJob) {
       this.addAssistantMessage(
-        this.text(
-          'No pude recuperar los datos completos de esta vacante.',
-          'I could not retrieve the complete information for this job.'
-        )
+        this.isSpanish
+          ? 'No pude recuperar los datos completos de esta vacante.'
+          : 'I could not retrieve the complete information for this job.'
       );
 
       return;
@@ -396,117 +371,20 @@ You can start by asking a question or uploading your CV whenever you want.`
     );
 
     this.addUserMessage(
-      this.text(
-        `Quiero analizar la vacante: ${job.title}`,
-        `I want to analyze this job opportunity: ${job.title}`
-      )
+      this.isSpanish
+        ? `Quiero analizar la vacante: ${job.title}`
+        : `I want to analyze this job: ${job.title}`
     );
 
     this.requestChatResponse(
-      this.text(
-        '¿Qué tan bien encajo en esta vacante?',
-        'How well do I match this job opportunity?'
-      )
+      this.isSpanish
+        ? '¿Qué tan bien encajo en esta vacante?'
+        : 'How well do I fit this job?'
     );
   }
 
   // =========================================================
-  // BÚSQUEDA DE VACANTES COMPATIBLES
-  // =========================================================
-
-  searchRecommendedJobs(): void {
-    if (!this.cvUploaded || this.cvSkills.length === 0) {
-      this.addAssistantMessage(
-        this.text(
-          'Primero sube tu CV para poder buscar vacantes compatibles con tu perfil.',
-          'First upload your CV so I can find job opportunities that match your profile.'
-        )
-      );
-
-      return;
-    }
-
-    if (this.isLoadingJobs) {
-      return;
-    }
-
-    this.addUserMessage(
-      this.text(
-        'Buscar vacantes compatibles con mi perfil',
-        'Find job opportunities that match my profile'
-      )
-    );
-
-    this.findRecommendedJobs();
-  }
-
-  // =========================================================
-  // ANALIZAR PERFIL
-  // =========================================================
-
-  analyzeProfile(): void {
-    if (!this.cvUploaded || this.cvSkills.length === 0) {
-      this.addAssistantMessage(
-        this.text(
-          'Primero sube tu CV para que pueda analizar tus habilidades y fortalezas.',
-          'First upload your CV so I can analyze your skills and strengths.'
-        )
-      );
-
-      return;
-    }
-
-    this.addUserMessage(
-      this.text(
-        'Analiza mi perfil profesional',
-        'Analyze my professional profile'
-      )
-    );
-
-    this.requestChatResponse(
-      this.text(
-        'Analiza mi perfil profesional. Resume mis principales habilidades, fortalezas y áreas que debería mejorar.',
-        'Analyze my professional profile. Summarize my main skills, strengths and areas I should improve.'
-      )
-    );
-  }
-
-  // =========================================================
-  // DETERMINAR SI UNA PREGUNTA REQUIERE CV
-  // =========================================================
-
-  private requiresCv(message: string): boolean {
-    const text = message.toLowerCase();
-
-    const keywords = this.isEnglish
-      ? [
-          'analyze my cv',
-          'analyze my resume',
-          'improve my cv',
-          'improve my resume',
-          'my skills',
-          'detected skills',
-          'cv compatibility',
-          'resume compatibility',
-          'what skills do i have'
-        ]
-      : [
-          'analiza mi cv',
-          'analizar mi cv',
-          'mejorar mi cv',
-          'mis habilidades',
-          'habilidades detectadas',
-          'compatibilidad de mi cv',
-          'qué habilidades tengo'
-        ];
-
-    return keywords.some(
-      keyword => text.includes(keyword)
-    );
-  }
-
-  // =========================================================
-  // ENVÍO DE MENSAJES
+  // ENVIAR MENSAJE
   // =========================================================
 
   sendMessage(): void {
@@ -517,18 +395,17 @@ You can start by asking a question or uploading your CV whenever you want.`
     }
 
     /*
-     * Algunas preguntas relacionadas con el perfil
-     * requieren primero analizar el CV.
+     * Algunas preguntas necesitan que primero exista
+     * un CV analizado.
      */
     if (
       this.requiresCv(message) &&
       (!this.cvUploaded || this.cvSkills.length === 0)
     ) {
       this.addAssistantMessage(
-        this.text(
-          '📄 Para responder esa pregunta primero necesito analizar tu CV. Puedes subirlo cuando quieras.',
-          '📄 To answer that question, I first need to analyze your CV. You can upload it whenever you want.'
-        )
+        this.isSpanish
+          ? '📄 Para responder esa pregunta primero necesito analizar tu CV. Puedes subirlo cuando quieras.'
+          : '📄 I need to analyze your CV first to answer that question. You can upload it whenever you want.'
       );
 
       return;
@@ -548,10 +425,9 @@ You can start by asking a question or uploading your CV whenever you want.`
   sendQuickAction(action: string): void {
     if (!this.cvUploaded || this.cvSkills.length === 0) {
       this.addAssistantMessage(
-        this.text(
-          'Primero sube tu CV para poder analizar tu perfil.',
-          'First upload your CV so I can analyze your profile.'
-        )
+        this.isSpanish
+          ? 'Primero sube tu CV para poder analizar tu perfil.'
+          : 'First upload your CV so I can analyze your profile.'
       );
 
       return;
@@ -563,7 +439,101 @@ You can start by asking a question or uploading your CV whenever you want.`
   }
 
   // =========================================================
-  // RESPUESTA DEL CHAT
+  // TARJETA: BUSCAR VACANTES
+  // =========================================================
+
+  searchRecommendedJobs(): void {
+    if (!this.cvUploaded || this.cvSkills.length === 0) {
+      this.addAssistantMessage(
+        this.isSpanish
+          ? 'Primero sube tu CV para poder buscar vacantes compatibles con tu perfil.'
+          : 'First upload your CV so I can find job opportunities that match your profile.'
+      );
+
+      return;
+    }
+
+    if (this.isLoadingJobs) {
+      return;
+    }
+
+    this.addUserMessage(
+      this.isSpanish
+        ? 'Buscar vacantes compatibles con mi perfil'
+        : 'Find jobs that match my profile'
+    );
+
+    this.findRecommendedJobs();
+  }
+
+  // =========================================================
+  // TARJETA: ANALIZAR PERFIL
+  // =========================================================
+
+  analyzeProfile(): void {
+    if (!this.cvUploaded || this.cvSkills.length === 0) {
+      this.addAssistantMessage(
+        this.isSpanish
+          ? 'Primero sube tu CV para que pueda analizar tus habilidades y fortalezas.'
+          : 'First upload your CV so I can analyze your skills and strengths.'
+      );
+
+      return;
+    }
+
+    this.addUserMessage(
+      this.isSpanish
+        ? 'Analiza mi perfil profesional'
+        : 'Analyze my professional profile'
+    );
+
+    this.requestChatResponse(
+      this.isSpanish
+        ? 'Analiza mi perfil profesional. Resume mis principales habilidades, fortalezas y áreas que debería mejorar.'
+        : 'Analyze my professional profile. Summarize my main skills, strengths and areas I should improve.'
+    );
+  }
+
+  // =========================================================
+  // PREGUNTAS QUE REQUIEREN CV
+  // =========================================================
+
+  private requiresCv(message: string): boolean {
+    const text = message.toLowerCase();
+
+    const keywords = this.isSpanish
+      ? [
+          'analiza mi cv',
+          'analizar mi cv',
+          'mejorar mi cv',
+          'mis habilidades',
+          'habilidades detectadas',
+          'compatibilidad de mi cv',
+          'qué habilidades tengo',
+          'que habilidades tengo',
+          'analiza mi perfil',
+          'analizar mi perfil'
+        ]
+      : [
+          'analyze my cv',
+          'analyze my resume',
+          'improve my cv',
+          'improve my resume',
+          'my skills',
+          'detected skills',
+          'cv compatibility',
+          'resume compatibility',
+          'what skills do i have',
+          'analyze my profile'
+        ];
+
+    return keywords.some(
+      keyword => text.includes(keyword)
+    );
+  }
+
+  // =========================================================
+  // RESPUESTA DEL CHAT IA
   // =========================================================
 
   private requestChatResponse(
@@ -596,10 +566,9 @@ You can start by asking a question or uploading your CV whenever you want.`
             response.response === '__SEARCH_JOBS__'
           ) {
             this.addAssistantMessage(
-              this.text(
-                '🔎 Estoy buscando las vacantes más compatibles con tu perfil...',
-                '🔎 I am looking for the job opportunities that best match your profile...'
-              )
+              this.isSpanish
+                ? '🔎 Estoy buscando las vacantes más compatibles con tu perfil...'
+                : '🔎 I am looking for the jobs that best match your profile...'
             );
 
             this.findRecommendedJobs();
@@ -607,10 +576,6 @@ You can start by asking a question or uploading your CV whenever you want.`
             return;
           }
 
-          /*
-           * La respuesta de la IA viene directamente desde
-           * el backend y se conserva sin modificar.
-           */
           this.addAssistantMessage(
             response.response
           );
@@ -625,10 +590,9 @@ You can start by asking a question or uploading your CV whenever you want.`
           this.isSending = false;
 
           this.addAssistantMessage(
-            this.text(
-              'No pude responder en este momento. Revisa que la API de Jobly AI esté funcionando.',
-              'I could not respond at the moment. Please check that the Jobly AI API is working.'
-            )
+            this.isSpanish
+              ? 'No pude responder en este momento. Revisa que la API de Jobly AI esté funcionando.'
+              : 'I could not respond at the moment. Make sure the Jobly AI API is working.'
           );
         }
       });
@@ -656,6 +620,7 @@ You can start by asking a question or uploading your CV whenever you want.`
     );
 
     this.messages = [];
+
     this.cvSkills = [];
     this.availableJobs = [];
     this.recommendedJobs = [];
@@ -664,6 +629,7 @@ You can start by asking a question or uploading your CV whenever you want.`
     this.selectedFile = null;
 
     this.cvUploaded = false;
+
     this.isAnalyzing = false;
     this.isLoadingJobs = false;
     this.isSending = false;
@@ -671,7 +637,29 @@ You can start by asking a question or uploading your CV whenever you want.`
     this.userMessage = '';
 
     this.addAssistantMessage(
-      this.getWelcomeMessage()
+      this.isSpanish
+        ? `Soy Jobly AI 🤖.
+
+Puedo ayudarte a:
+
+Buscar empleo 💼.
+Analizar tu CV 📄.
+Encontrar vacantes compatibles con tu perfil 🎯.
+Resolver dudas sobre programación y tecnología 💻.
+Prepararte para entrevistas y mejorar tu perfil profesional 🚀.
+
+Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
+        : `I'm Jobly AI 🤖.
+
+I can help you:
+
+Find jobs 💼.
+Analyze your CV 📄.
+Find job opportunities that match your profile 🎯.
+Answer questions about programming and technology 💻.
+Prepare for interviews and improve your professional profile 🚀.
+
+You can start by asking a question or uploading your CV whenever you want.`
     );
   }
 
@@ -706,7 +694,7 @@ You can start by asking a question or uploading your CV whenever you want.`
   }
 
   // =========================================================
-  // LOCAL STORAGE
+  // GUARDAR SESIÓN
   // =========================================================
 
   private saveMessages(): void {
@@ -715,6 +703,10 @@ You can start by asking a question or uploading your CV whenever you want.`
       JSON.stringify(this.messages)
     );
   }
+
+  // =========================================================
+  // CARGAR SESIÓN
+  // =========================================================
 
   private loadSession(): void {
     try {
@@ -762,15 +754,25 @@ You can start by asking a question or uploading your CV whenever you want.`
       }
     } catch (error) {
       console.error(
-        'Error al cargar la sesión del chat:',
+        'No se pudo cargar la sesión:',
         error
       );
 
-      this.messages = [];
-      this.cvSkills = [];
-      this.recommendedJobs = [];
-      this.selectedJob = null;
-      this.cvUploaded = false;
+      localStorage.removeItem(
+        'jobly_chat_messages'
+      );
+
+      localStorage.removeItem(
+        'jobly_cv_skills'
+      );
+
+      localStorage.removeItem(
+        'jobly_recommended_jobs'
+      );
+
+      localStorage.removeItem(
+        'jobly_selected_job'
+      );
     }
   }
 
@@ -783,14 +785,10 @@ You can start by asking a question or uploading your CV whenever you want.`
       const container =
         this.messagesContainer?.nativeElement;
 
-      if (!container) {
-        return;
+      if (container) {
+        container.scrollTop =
+          container.scrollHeight;
       }
-
-      container.scrollTo({
-        top: container.scrollHeight,
-        behavior: 'smooth'
-      });
-    }, 50);
+    });
   }
 }

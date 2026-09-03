@@ -3,34 +3,44 @@
   <div class="chat-container">
 
     <!-- =====================================================
-         HEADER
-    ====================================================== -->
+         ENCABEZADO
+         ===================================================== -->
 
     <header class="chat-header">
 
-      <div class="assistant-identity">
+      <div class="assistant-info">
 
         <div class="header-ai-icon">
-          <img
-            src="logoBlanco.png"
-            alt="Jobly AI"
-          />
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 3l1.25 3.75L17 8l-3.75 1.25L12 13l-1.25-3.75L7 8l3.75-1.25L12 3Zm6 9 .8 2.2L21 15l-2.2.8L18 18l-.8-2.2L15 15l2.2-.8L18 12ZM6 13l1.1 2.9L10 17l-2.9 1.1L6 21l-1.1-2.9L2 17l2.9-1.1L6 13Z"
+            />
+          </svg>
+
         </div>
 
         <div class="assistant-details">
 
           <div class="assistant-title">
-            <h1>Jobly AI</h1>
+
+            <h1>
+              Jobly AI
+            </h1>
 
             <span class="beta-badge">
               BETA
             </span>
+
           </div>
 
           <p>
             {{
               translation.currentLanguage === 'es'
-                ? 'Asistente de empleo y análisis de CV'
+                ? 'Asistente de búsqueda de empleo y análisis de CV'
                 : 'Job search and CV analysis assistant'
             }}
           </p>
@@ -45,7 +55,7 @@
       <button
         class="clear-button"
         type="button"
-        [title]="
+        [attr.title]="
           translation.currentLanguage === 'es'
             ? 'Limpiar conversación'
             : 'Clear conversation'
@@ -77,7 +87,7 @@
 
     <!-- =====================================================
          MENSAJES
-    ====================================================== -->
+         ===================================================== -->
 
     <main
       #messagesContainer
@@ -86,15 +96,9 @@
 
       <!-- ===================================================
            PANTALLA INICIAL
-      ==================================================== -->
+           =================================================== -->
 
-      @if (
-        messages.length === 1 &&
-        !cvUploaded &&
-        !isAnalyzing &&
-        !isLoadingJobs &&
-        !isSending
-      ) {
+      @if (messages.length <= 1) {
 
         <section class="welcome-section">
 
@@ -114,9 +118,7 @@
 
           <h2>
 
-            @if (
-              translation.currentLanguage === 'es'
-            ) {
+            @if (translation.currentLanguage === 'es') {
 
               ¿Cómo puedo
               <span>ayudarte</span>
@@ -144,7 +146,9 @@
           </p>
 
 
-          <!-- TARJETAS -->
+          <!-- =================================================
+               TARJETAS
+               ================================================= -->
 
           <div class="suggestion-grid">
 
@@ -255,7 +259,7 @@
 
         <!-- =================================================
              CONVERSACIÓN
-        ================================================== -->
+             ================================================= -->
 
         <div class="conversation">
 
@@ -317,7 +321,9 @@
                   </p>
 
 
-                  <!-- VACANTES -->
+                  <!-- =======================================
+                       VACANTES RECOMENDADAS
+                       ======================================= -->
 
                   @if (
                     message.type === 'jobs' &&
@@ -334,7 +340,7 @@
                         <article class="job-card">
 
 
-                          <!-- CABECERA -->
+                          <!-- CABECERA VACANTE -->
 
                           <div class="job-card-header">
 
@@ -352,18 +358,24 @@
                             <div class="job-main-info">
 
                               <span class="job-company">
+
                                 {{ job.company }}
+
                               </span>
 
                               <h2>
+
                                 {{ job.title }}
+
                               </h2>
 
                             </div>
 
 
                             <span class="compatibility">
+
                               {{ job.compatibility }}%
+
                             </span>
 
                           </div>
@@ -382,7 +394,9 @@
                           </div>
 
 
-                          <!-- FORTALEZAS -->
+                          <!-- =================================
+                               FORTALEZAS
+                               ================================= -->
 
                           <div class="job-section">
 
@@ -407,7 +421,9 @@
                                 <span
                                   class="skill strength"
                                 >
+
                                   {{ skill }}
+
                                 </span>
 
                               }
@@ -434,7 +450,9 @@
                           </div>
 
 
-                          <!-- POR MEJORAR -->
+                          <!-- =================================
+                               HABILIDADES POR MEJORAR
+                               ================================= -->
 
                           <div class="job-section">
 
@@ -443,7 +461,7 @@
                               {{
                                 translation.currentLanguage === 'es'
                                   ? 'Por mejorar'
-                                  : 'To improve'
+                                  : 'Skills to improve'
                               }}
 
                             </span>
@@ -459,7 +477,9 @@
                                 <span
                                   class="skill missing"
                                 >
+
                                   {{ skill }}
+
                                 </span>
 
                               }
@@ -474,7 +494,7 @@
                                   {{
                                     translation.currentLanguage === 'es'
                                       ? 'Cumples todas las habilidades'
-                                      : 'You meet all required skills'
+                                      : 'You meet all the required skills'
                                   }}
 
                                 </span>
@@ -486,9 +506,12 @@
                           </div>
 
 
-                          <!-- ACCIONES -->
+                          <!-- =================================
+                               ACCIONES
+                               ================================= -->
 
                           <div class="job-actions">
+
 
                             <button
                               class="analyze-button"
@@ -520,7 +543,9 @@
                                     : 'View job'
                                 }}
 
-                                <span>↗</span>
+                                <span>
+                                  ↗
+                                </span>
 
                               </a>
 
@@ -539,7 +564,7 @@
                 </div>
 
 
-                <!-- TIEMPO -->
+                <!-- ETIQUETA DEL MENSAJE -->
 
                 <span class="message-time">
 
@@ -571,7 +596,9 @@
               ) {
 
                 <div class="message-avatar user-avatar">
+
                   U
+
                 </div>
 
               }
@@ -583,7 +610,7 @@
 
           <!-- =================================================
                ANIMACIÓN ESCRIBIENDO
-          ================================================== -->
+               ================================================= -->
 
           @if (
             isAnalyzing ||
@@ -641,16 +668,17 @@
 
     <!-- =====================================================
          ACCIONES RÁPIDAS
-    ====================================================== -->
+         ===================================================== -->
 
     @if (
-      messages.length > 1
+      messages.length > 1 &&
+      cvUploaded
     ) {
 
       <div class="quick-actions">
 
 
-        <!-- BUSCAR -->
+        <!-- BUSCAR VACANTES -->
 
         <button
           type="button"
@@ -724,7 +752,7 @@
         </button>
 
 
-        <!-- HABILIDADES FALTANTES -->
+        <!-- HABILIDADES POR MEJORAR -->
 
         <button
           type="button"
@@ -763,8 +791,8 @@
 
             {{
               translation.currentLanguage === 'es'
-                ? 'Habilidades faltantes'
-                : 'Missing skills'
+                ? 'Habilidades por mejorar'
+                : 'Skills to improve'
             }}
 
           </span>
@@ -778,7 +806,7 @@
 
     <!-- =====================================================
          FOOTER
-    ====================================================== -->
+         ===================================================== -->
 
     <footer class="chat-footer">
 
@@ -789,10 +817,10 @@
         class="upload-button"
         [class.uploaded]="cvUploaded"
         [class.disabled]="isAnalyzing"
-        [title]="
+        [attr.title]="
           translation.currentLanguage === 'es'
             ? 'Subir CV en PDF'
-            : 'Upload CV as PDF'
+            : 'Upload CV in PDF format'
         "
       >
 
@@ -818,22 +846,30 @@
 
         <span>
 
-          {{
-            translation.currentLanguage === 'es'
-              ? (cvUploaded
-                  ? 'Cambiar CV'
-                  : 'Subir CV')
-              : (cvUploaded
-                  ? 'Change CV'
-                  : 'Upload CV')
-          }}
+          @if (cvUploaded) {
+
+            {{
+              translation.currentLanguage === 'es'
+                ? 'Cambiar CV'
+                : 'Change CV'
+            }}
+
+          } @else {
+
+            {{
+              translation.currentLanguage === 'es'
+                ? 'Subir CV'
+                : 'Upload CV'
+            }}
+
+          }
 
         </span>
 
       </label>
 
 
-      <!-- FORMULARIO -->
+      <!-- INPUT CHAT -->
 
       <form
         class="message-form"
@@ -853,6 +889,8 @@
           autocomplete="off"
         />
 
+
+        <!-- ENVIAR -->
 
         <button
           class="send-button"
@@ -888,7 +926,7 @@
 
     <!-- =====================================================
          DISCLAIMER
-    ====================================================== -->
+         ===================================================== -->
 
     <p class="ai-disclaimer">
 
