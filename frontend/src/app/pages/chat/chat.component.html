@@ -1,8 +1,10 @@
 <section class="chat-page">
   <div class="chat-container">
+
     <!-- ENCABEZADO -->
     <header class="chat-header">
       <div class="assistant-info">
+
         <div class="header-ai-icon">
           <svg
             viewBox="0 0 24 24"
@@ -48,21 +50,24 @@
       </button>
     </header>
 
+
     <!-- MENSAJES -->
     <main
       #messagesContainer
       class="messages"
     >
+
       @if (
         messages.length === 1 &&
         !cvUploaded &&
         !isAnalyzing &&
         !isLoadingJobs &&
-        !isSending &&
-        !isGeneratingCv
+        !isSending
       ) {
+
         <!-- PANTALLA INICIAL -->
         <section class="welcome-section">
+
           <div class="welcome-icon">
             <svg
               viewBox="0 0 24 24"
@@ -86,36 +91,16 @@
             recomendaciones personalizadas.
           </p>
 
+
           <div class="suggestion-grid">
-            <button
-              class="suggestion-card"
-              type="button"
-              (click)="createCv()"
-            >
-              <span class="suggestion-icon">
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M7 3h7l4 4v14H7V3Zm7 0v5h5M10 12h5m-5 4h5"
-                  />
-                </svg>
-              </span>
 
-              <strong>Crear mi CV</strong>
-
-              <small>
-                Genera un CV profesional con IA,
-                rápido y personalizado.
-              </small>
-            </button>
-
+            <!-- BUSCAR VACANTES -->
             <button
               class="suggestion-card"
               type="button"
               (click)="searchRecommendedJobs()"
             >
+
               <span class="suggestion-icon">
                 <svg
                   viewBox="0 0 24 24"
@@ -131,19 +116,25 @@
                 </svg>
               </span>
 
-              <strong>Buscar vacantes</strong>
+              <strong>
+                Buscar vacantes
+              </strong>
 
               <small>
                 Encuentra vacantes que se ajusten a
                 tus habilidades y experiencia.
               </small>
+
             </button>
 
+
+            <!-- ANALIZAR PERFIL -->
             <button
               class="suggestion-card"
               type="button"
               (click)="analyzeProfile()"
             >
+
               <span class="suggestion-icon">
                 <svg
                   viewBox="0 0 24 24"
@@ -155,65 +146,51 @@
                 </svg>
               </span>
 
-              <strong>Analizar mi perfil</strong>
+              <strong>
+                Analizar mi perfil
+              </strong>
 
               <small>
                 Descubre tus habilidades, fortalezas
                 y áreas de mejora.
               </small>
+
             </button>
+
           </div>
+
         </section>
+
       } @else {
-        <!-- PREVIEW DEL CV EN GENERACIÓN -->
-        @if (isGeneratingCv && cvPreviewHtml) {
-          <section class="cv-preview-section">
-            <div class="cv-preview-header">
-              <h3>Vista previa de tu CV</h3>
-              
-              <div class="cv-progress-info">
-                <span class="progress-text">
-                  Paso {{ cvGeneratorStep || 0 }} de 8
-                </span>
-                
-                <div class="progress-bar">
-                  <div 
-                    class="progress-fill" 
-                    [style.width.%]="cvGeneratorProgress || 0"
-                  ></div>
-                </div>
-                
-                <span class="progress-percentage">
-                  {{ cvGeneratorProgress || 0 }}%
-                </span>
-              </div>
-            </div>
-            
-            <div class="cv-preview-content">
-              <div [innerHTML]="cvPreviewHtml"></div>
-            </div>
-          </section>
-        }
 
         <!-- CONVERSACIÓN -->
         <div class="conversation">
-          @for (message of messages; track $index) {
+
+          @for (
+            message of messages;
+            track $index
+          ) {
+
             <div
               class="message-row"
               [class.user-row]="message.role === 'user'"
-              [class.assistant-row]="
-                message.role === 'assistant'
-              "
+              [class.assistant-row]="message.role === 'assistant'"
             >
+
               <!-- AVATAR IA -->
               @if (message.role === 'assistant') {
+
                 <div class="message-avatar ai-avatar">
+
                   <img
                     src="logoBlanco.png"
                     alt="Jobly AI"
                   />
+
                 </div>
+
               }
+
 
               <!-- CONTENIDO -->
               <div
@@ -222,6 +199,7 @@
                   message.role === 'user'
                 "
               >
+
                 <div
                   class="message"
                   [class.user-message]="
@@ -231,19 +209,29 @@
                     message.role === 'assistant'
                   "
                 >
-                  <p>{{ message.content }}</p>
 
+                  <p>
+                    {{ message.content }}
+                  </p>
+
+
+                  <!-- LISTA DE VACANTES -->
                   @if (
                     message.type === 'jobs' &&
                     message.jobs?.length
                   ) {
+
                     <div class="jobs-list">
+
                       @for (
                         job of message.jobs;
                         track job.id
                       ) {
+
                         <article class="job-card">
+
                           <div class="job-card-header">
+
                             <div class="job-company-avatar">
                               {{
                                 job.company
@@ -253,81 +241,113 @@
                             </div>
 
                             <div class="job-main-info">
+
                               <span class="job-company">
                                 {{ job.company }}
                               </span>
 
-                              <h2>{{ job.title }}</h2>
+                              <h2>
+                                {{ job.title }}
+                              </h2>
+
                             </div>
 
                             <span class="compatibility">
                               {{ job.compatibility }}%
                             </span>
+
                           </div>
 
+
+                          <!-- BARRA DE COMPATIBILIDAD -->
                           <div class="compatibility-bar">
+
                             <span
                               [style.width.%]="
                                 job.compatibility
                               "
                             ></span>
+
                           </div>
 
+
+                          <!-- FORTALEZAS -->
                           <div class="job-section">
+
                             <span class="job-label">
                               Fortalezas
                             </span>
 
                             <div class="skills">
+
                               @for (
                                 skill of job.strengths;
                                 track skill
                               ) {
+
                                 <span
                                   class="skill strength"
                                 >
                                   {{ skill }}
                                 </span>
+
                               }
 
                               @if (
                                 job.strengths.length === 0
                               ) {
+
                                 <span class="empty-text">
                                   Sin coincidencias detectadas
                                 </span>
+
                               }
+
                             </div>
+
                           </div>
 
+
+                          <!-- HABILIDADES FALTANTES -->
                           <div class="job-section">
+
                             <span class="job-label">
                               Por mejorar
                             </span>
 
                             <div class="skills">
+
                               @for (
                                 skill of job.missing_skills;
                                 track skill
                               ) {
+
                                 <span
                                   class="skill missing"
                                 >
                                   {{ skill }}
                                 </span>
+
                               }
 
                               @if (
                                 job.missing_skills.length === 0
                               ) {
+
                                 <span class="empty-text">
                                   Cumples todas las habilidades
                                 </span>
+
                               }
+
                             </div>
+
                           </div>
 
+
+                          <!-- ACCIONES -->
                           <div class="job-actions">
+
                             <button
                               class="analyze-button"
                               type="button"
@@ -336,7 +356,9 @@
                               Analizar vacante
                             </button>
 
+
                             @if (job.url) {
+
                               <a
                                 class="view-job-link"
                                 [href]="job.url"
@@ -345,32 +367,53 @@
                               >
                                 Ver vacante
 
-                                <span>↗</span>
+                                <span>
+                                  ↗
+                                </span>
+
                               </a>
+
                             }
+
                           </div>
+
                         </article>
+
                       }
+
                     </div>
+
                   }
+
                 </div>
 
+
                 <span class="message-time">
-                  {{ message.role === 'user'
-                    ? 'Enviado'
-                    : 'Jobly AI'
+
+                  {{
+                    message.role === 'user'
+                      ? 'Enviado'
+                      : 'Jobly AI'
                   }}
+
                 </span>
+
               </div>
 
-              <!-- AVATAR USUARIO A LA DERECHA -->
+
+              <!-- AVATAR USUARIO -->
               @if (message.role === 'user') {
+
                 <div class="message-avatar user-avatar">
                   U
                 </div>
+
               }
+
             </div>
+
           }
+
 
           <!-- ANIMACIÓN ESCRIBIENDO -->
           @if (
@@ -378,15 +421,20 @@
             isLoadingJobs ||
             isSending
           ) {
+
             <div class="message-row assistant-row">
+
               <div class="message-avatar ai-avatar">
+
                 <img
                   src="logoBlanco.png"
                   alt="Jobly AI"
                 />
+
               </div>
 
               <div class="message-content">
+
                 <div
                   class="message assistant-message typing"
                 >
@@ -398,20 +446,31 @@
                 <span class="message-time">
                   Jobly AI está escribiendo
                 </span>
+
               </div>
+
             </div>
+
           }
+
         </div>
+
       }
+
     </main>
 
+
     <!-- ACCIONES RÁPIDAS -->
-    @if (messages.length > 1 && !isGeneratingCv) {
+    @if (messages.length > 1) {
+
       <div class="quick-actions">
+
+        <!-- BUSCAR VACANTES -->
         <button
           type="button"
           (click)="searchRecommendedJobs()"
         >
+
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -425,15 +484,21 @@
             <path d="m16 16 5 5"></path>
           </svg>
 
-          <span>Buscar vacantes</span>
+          <span>
+            Buscar vacantes
+          </span>
+
         </button>
 
+
+        <!-- MIS HABILIDADES -->
         <button
           type="button"
           (click)="sendQuickAction(
             '¿Qué habilidades detectaste en mi CV?'
           )"
         >
+
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -443,15 +508,21 @@
             />
           </svg>
 
-          <span>Mis habilidades</span>
+          <span>
+            Mis habilidades
+          </span>
+
         </button>
 
+
+        <!-- HABILIDADES FALTANTES -->
         <button
           type="button"
           (click)="sendQuickAction(
             '¿Qué habilidades debería aprender?'
           )"
         >
+
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -468,26 +539,37 @@
               r="4"
             ></circle>
 
-            <path d="M12 2v4m0 12v4m10-10h-4M6 12H2"></path>
+            <path
+              d="M12 2v4m0 12v4m10-10h-4M6 12H2"
+            ></path>
           </svg>
 
-          <span>Habilidades faltantes</span>
+          <span>
+            Habilidades faltantes
+          </span>
+
         </button>
+
       </div>
+
     }
+
 
     <!-- FOOTER -->
     <footer class="chat-footer">
+
+      <!-- SUBIR CV -->
       <label
         class="upload-button"
         [class.uploaded]="cvUploaded"
-        [class.disabled]="isAnalyzing || isGeneratingCv"
+        [class.disabled]="isAnalyzing"
         title="Subir CV en PDF"
       >
+
         <input
           type="file"
           accept="application/pdf"
-          [disabled]="isAnalyzing || isGeneratingCv"
+          [disabled]="isAnalyzing"
           (change)="onFileSelected($event)"
         />
 
@@ -501,20 +583,28 @@
         </svg>
 
         <span>
-          {{ cvUploaded ? 'Cambiar CV' : 'Subir CV' }}
+          {{
+            cvUploaded
+              ? 'Cambiar CV'
+              : 'Subir CV'
+          }}
         </span>
+
       </label>
 
+
+      <!-- FORMULARIO DEL CHAT -->
       <form
         class="message-form"
         (ngSubmit)="sendMessage()"
       >
+
         <input
           type="text"
           name="userMessage"
           [(ngModel)]="userMessage"
           [disabled]="isSending"
-          [placeholder]="isGeneratingCv && isWaitingForAnswer ? 'Escribe tu respuesta para el CV...' : '¿En qué puedo ayudarte hoy?'"
+          placeholder="¿En qué puedo ayudarte hoy?"
           autocomplete="off"
         />
 
@@ -527,6 +617,7 @@
             isSending
           "
         >
+
           <svg
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -535,13 +626,18 @@
               d="m4 4 17 8-17 8 3-8-3-8Zm3 8h14"
             />
           </svg>
+
         </button>
+
       </form>
+
     </footer>
+
 
     <p class="ai-disclaimer">
       Jobly AI puede cometer errores. Verifica la
       información importante.
     </p>
+
   </div>
 </section>

@@ -49,32 +49,25 @@ export class ChatComponent {
   isSending = false;
   cvUploaded = false;
 
-  // NUEVAS PROPIEDADES PARA EL GENERADOR DE CV
-  isGeneratingCv = false;
-  cvGeneratorUserId: string | null = null;
-  cvGeneratorStep = 0;
-  cvGeneratorProgress = 0;
-  cvPreviewHtml = '';
-  isWaitingForAnswer = false;
-
   constructor(
     private readonly joblyAiService: JoblyAiService
   ) {
     this.loadSession();
 
     if (this.messages.length === 0) {
-     this.addAssistantMessage(
+      this.addAssistantMessage(
 `Soy Jobly AI 🤖.
 
 Puedo ayudarte a:
 
- Buscar empleo 💼.
- Crear o mejorar tu CV 📄.
- Prepararte para entrevistas 🎯.
- Resolver dudas sobre programación y tecnología 💻.
+Buscar empleo 💼.
+Analizar tu CV 📄.
+Encontrar vacantes compatibles con tu perfil 🎯.
+Resolver dudas sobre programación y tecnología 💻.
+Prepararte para entrevistas y mejorar tu perfil profesional 🚀.
 
 Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
-);
+      );
     }
   }
 
@@ -271,7 +264,7 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
           });
 
           this.addAssistantMessage(
-            'Selecciona una vacante para analizarla o pregúntame cómo puedes mejorar tu CV.'
+            'Selecciona una vacante para analizarla o pregúntame cómo puedes mejorar tu perfil profesional.'
           );
 
           this.saveMessages();
@@ -335,15 +328,9 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
       return;
     }
 
-    // Si estamos en modo generación de CV, enviar como respuesta de la entrevista
-    if (this.isGeneratingCv && this.isWaitingForAnswer) {
-      const cvAnswer = message;
-      this.userMessage = '';
-      this.sendCvAnswer(cvAnswer);
-      return;
-    }
-
-    // Flujo normal del chat
+    /*
+     * Flujo normal del chat.
+     */
     if (
       this.requiresCv(message) &&
       (!this.cvUploaded || this.cvSkills.length === 0)
@@ -375,50 +362,6 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
   // ============================================
   // MÉTODOS PARA LAS TARJETAS DE BIENVENIDA
   // ============================================
-
-  createCv(): void {
-    if (this.isGeneratingCv) {
-      return;
-    }
-
-    // Generar un ID único para la sesión
-    this.cvGeneratorUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-    
-    this.isGeneratingCv = true;
-    this.isWaitingForAnswer = true;
-    
-    this.addAssistantMessage('Iniciando el generador de CV...');
-    
-    this.joblyAiService.startCvGeneration(this.cvGeneratorUserId).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.addAssistantMessage(response.message);
-          
-          // Mostrar los botones de opciones si existen
-          if (response.buttons && response.buttons.length > 0) {
-            // Agregar mensaje con botones de opciones
-            this.addAssistantMessage(
-              'Selecciona una opción para comenzar: ' + response.buttons.join(' | ')
-            );
-          }
-          
-          // Actualizar preview del CV si existe
-          if (response.cv_preview) {
-            this.cvPreviewHtml = response.cv_preview;
-          }
-        }
-        
-        this.saveMessages();
-        this.scrollToBottom();
-      },
-      error: (error) => {
-        console.error('Error al iniciar generador de CV:', error);
-        this.isGeneratingCv = false;
-        this.isWaitingForAnswer = false;
-        this.addAssistantMessage('No pude iniciar el generador de CV. Intenta de nuevo más tarde.');
-      }
-    });
-  }
 
   searchRecommendedJobs(): void {
     if (!this.cvUploaded || this.cvSkills.length === 0) {
@@ -459,7 +402,7 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
   }
 
   // ============================================
-  // NUEVO MÉTODO: REQUIERE CV
+  // MÉTODO: DETERMINAR SI REQUIERE CV
   // ============================================
 
   private requiresCv(message: string): boolean {
@@ -475,69 +418,9 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
       'qué habilidades tengo'
     ];
 
-    return keywords.some(keyword => text.includes(keyword));
-  }
-
-  // ============================================
-  // NUEVO MÉTODO: ENVIAR RESPUESTA DEL CV
-  // ============================================
-
-  sendCvAnswer(answer: string): void {
-    if (!this.cvGeneratorUserId || !this.isWaitingForAnswer || this.isSending) {
-      return;
-    }
-
-    this.isSending = true;
-    this.isWaitingForAnswer = false;
-    
-    this.addUserMessage(answer);
-    
-    this.joblyAiService.sendCvAnswer(this.cvGeneratorUserId, answer).subscribe({
-      next: (response) => {
-        this.isSending = false;
-        
-        if (response.success) {
-          // Actualizar progreso y paso
-          if (response.step) {
-            this.cvGeneratorStep = response.step;
-          }
-          if (response.progress !== undefined) {
-            this.cvGeneratorProgress = response.progress;
-          }
-          
-          // Actualizar preview del CV
-          if (response.cv_preview) {
-            this.cvPreviewHtml = response.cv_preview;
-          }
-          
-          // Verificar si el CV está completo
-          if (response.is_complete) {
-            this.isGeneratingCv = false;
-            this.addAssistantMessage(response.message || '¡Tu CV ha sido generado exitosamente!');
-            this.addAssistantMessage('Puedes descargar tu CV o seguir mejorándolo con mis sugerencias.');
-          } else {
-            // Mostrar la siguiente pregunta
-            this.isWaitingForAnswer = true;
-            
-            if (response.question) {
-              const stepInfo = response.step_name ? ` (${response.step_name})` : '';
-              const progressInfo = response.progress !== undefined ? ` - Progreso: ${response.progress}%` : '';
-              
-              this.addAssistantMessage(`${response.question}${stepInfo}${progressInfo}`);
-            }
-          }
-        }
-        
-        this.saveMessages();
-        this.scrollToBottom();
-      },
-      error: (error) => {
-        console.error('Error al enviar respuesta del CV:', error);
-        this.isSending = false;
-        this.isWaitingForAnswer = true;
-        this.addAssistantMessage('Hubo un error al procesar tu respuesta. Intenta de nuevo.');
-      }
-    });
+    return keywords.some(keyword =>
+      text.includes(keyword)
+    );
   }
 
   clearChat(): void {
@@ -558,14 +441,6 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
     this.isAnalyzing = false;
     this.isLoadingJobs = false;
     this.isSending = false;
-    
-    // Limpiar estado del generador de CV
-    this.isGeneratingCv = false;
-    this.cvGeneratorUserId = null;
-    this.cvGeneratorStep = 0;
-    this.cvGeneratorProgress = 0;
-    this.cvPreviewHtml = '';
-    this.isWaitingForAnswer = false;
 
     this.userMessage = '';
 
@@ -574,13 +449,14 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
 
 Puedo ayudarte a:
 
- Buscar empleo 💼.
- Crear o mejorar tu CV 📄.
- Prepararte para entrevistas 🎯.
- Resolver dudas sobre programación y tecnología 💻.
+Buscar empleo 💼.
+Analizar tu CV 📄.
+Encontrar vacantes compatibles con tu perfil 🎯.
+Resolver dudas sobre programación y tecnología 💻.
+Prepararte para entrevistas y mejorar tu perfil profesional 🚀.
 
 Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
-);
+    );
   }
 
   private requestChatResponse(
@@ -596,12 +472,12 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
       .sendMessage(
         message,
         this.messages
-            .filter(m => m.type === 'text')
-            .slice(-6)
-            .map(m => ({
-                role: m.role,
-                content: m.content
-            })),
+          .filter(m => m.type === 'text')
+          .slice(-6)
+          .map(m => ({
+            role: m.role,
+            content: m.content
+          })),
         this.cvSkills,
         this.selectedJob
       )
@@ -609,10 +485,11 @@ Puedes comenzar escribiendo una pregunta o subir tu CV cuando quieras.`
         next: response => {
           this.isSending = false;
 
-          if (response.response === "__SEARCH_JOBS__") {
+          if (response.response === '__SEARCH_JOBS__') {
             this.addAssistantMessage(
-              "🔎 Estoy buscando las vacantes más compatibles con tu perfil..."
+              '🔎 Estoy buscando las vacantes más compatibles con tu perfil...'
             );
+
             this.findRecommendedJobs();
             return;
           }
