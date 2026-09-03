@@ -102,7 +102,7 @@ export interface CvGeneratorAnswerResponse {
   providedIn: 'root'
 })
 export class JoblyAiService {
- private readonly aiApiUrl = 'https://jobly-ai-api.onrender.com';
+  private readonly aiApiUrl = 'https://jobly-ai-api.onrender.com/'; 
   
 
   private readonly jobsApiUrl = '/api/jobs';
