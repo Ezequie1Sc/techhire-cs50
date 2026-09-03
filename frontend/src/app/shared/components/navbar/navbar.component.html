@@ -2,6 +2,7 @@
   <nav class="max-w-7xl mx-auto">
 
     <div class="navbar-shell" [class.closing]="isClosing">
+
       <div class="flex items-center justify-between gap-4">
 
         <!-- Brand -->
@@ -25,47 +26,84 @@
           </div>
         </button>
 
+
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center gap-1 nav-pill">
 
+          <!-- Inicio -->
           <button
             type="button"
             class="nav-link"
             [class.nav-active]="isActive('/')"
             (click)="goTo('/')"
           >
-            {{ translation.currentLanguage === 'es' ? 'Inicio' : 'Home' }}
+            {{
+              translation.currentLanguage === 'es'
+                ? 'Inicio'
+                : 'Home'
+            }}
           </button>
 
+
+          <!-- Vacantes -->
           <button
             type="button"
             class="nav-link"
             [class.nav-active]="isActive('/jobs')"
             (click)="goTo('/jobs')"
           >
-            {{ translation.currentLanguage === 'es' ? 'Vacantes' : 'Jobs' }}
+            {{
+              translation.currentLanguage === 'es'
+                ? 'Vacantes'
+                : 'Jobs'
+            }}
           </button>
 
+
+          <!-- Favoritos -->
           <button
             type="button"
             class="nav-link"
             [class.nav-active]="isActive('/favorites')"
             (click)="goTo('/favorites')"
           >
-            {{ translation.currentLanguage === 'es' ? 'Favoritos' : 'Favorites' }}
+            {{
+              translation.currentLanguage === 'es'
+                ? 'Favoritos'
+                : 'Favorites'
+            }}
+          </button>
+
+
+          <!-- Asistente IA -->
+          <button
+            type="button"
+            class="nav-link"
+            [class.nav-active]="isActive('/chat')"
+            (click)="goTo('/chat')"
+          >
+            {{
+              translation.currentLanguage === 'es'
+                ? 'Asistente IA'
+                : 'AI Assistant'
+            }}
           </button>
 
         </div>
 
+
         <!-- Desktop Actions -->
         <div class="hidden md:flex items-center gap-3">
 
+          <!-- Language -->
           <div class="language-dropdown">
+
             <button
               type="button"
               class="language-trigger"
               (click)="toggleLanguageMenu()"
             >
+
               <img
                 [src]="currentFlag"
                 alt="Idioma actual"
@@ -89,49 +127,80 @@
                   stroke-linecap="round"
                 />
               </svg>
+
             </button>
 
+
             @if (isLanguageOpen) {
+
               <div class="language-menu">
 
+                <!-- English -->
                 <button
                   type="button"
                   class="language-option"
-                  [class.active]="translation.currentLanguage === 'en'"
+                  [class.active]="
+                    translation.currentLanguage === 'en'
+                  "
                   (click)="changeLanguage('en')"
                 >
-                  <img src="https://flagcdn.com/us.svg" alt="English" class="language-flag" />
+
+                  <img
+                    src="https://flagcdn.com/us.svg"
+                    alt="English"
+                    class="language-flag"
+                  />
+
                   <span>English</span>
 
                   @if (translation.currentLanguage === 'en') {
                     <span class="language-check">✓</span>
                   }
+
                 </button>
 
+
+                <!-- Español -->
                 <button
                   type="button"
                   class="language-option"
-                  [class.active]="translation.currentLanguage === 'es'"
+                  [class.active]="
+                    translation.currentLanguage === 'es'
+                  "
                   (click)="changeLanguage('es')"
                 >
-                  <img src="https://flagcdn.com/mx.svg" alt="Español" class="language-flag" />
+
+                  <img
+                    src="https://flagcdn.com/mx.svg"
+                    alt="Español"
+                    class="language-flag"
+                  />
+
                   <span>Español</span>
 
                   @if (translation.currentLanguage === 'es') {
                     <span class="language-check">✓</span>
                   }
+
                 </button>
 
               </div>
+
             }
+
           </div>
 
+
+          <!-- CTA -->
           <button
             type="button"
             class="nav-cta"
             (click)="goTo('/jobs')"
           >
-            {{ translation.translate('home.exploreJobs') }}
+
+            {{
+              translation.translate('home.exploreJobs')
+            }}
 
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -147,9 +216,11 @@
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               />
             </svg>
+
           </button>
 
         </div>
+
 
         <!-- Mobile Button -->
         <button
@@ -158,7 +229,9 @@
           class="mobile-toggle"
           aria-label="Abrir menú"
         >
+
           @if (!isMenuOpen) {
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="w-5 h-5"
@@ -173,7 +246,9 @@
                 d="M4 7h16M4 12h16M4 17h16"
               />
             </svg>
+
           } @else {
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="w-5 h-5"
@@ -188,80 +263,160 @@
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
+
           }
+
         </button>
 
       </div>
+
     </div>
+
 
     <!-- Mobile Menu -->
     @if (isMenuOpen) {
+
       <div class="mobile-menu">
 
+
+        <!-- Mobile Language -->
         <div class="mobile-language-selector">
 
+          <!-- Español -->
           <button
             type="button"
             class="mobile-lang-btn"
-            [class.active]="translation.currentLanguage === 'es'"
+            [class.active]="
+              translation.currentLanguage === 'es'
+            "
             (click)="changeLanguage('es')"
           >
-            <img src="https://flagcdn.com/mx.svg" alt="Español" class="mobile-lang-flag" />
+
+            <img
+              src="https://flagcdn.com/mx.svg"
+              alt="Español"
+              class="mobile-lang-flag"
+            />
+
             <span>Español</span>
+
           </button>
 
+
+          <!-- English -->
           <button
             type="button"
             class="mobile-lang-btn"
-            [class.active]="translation.currentLanguage === 'en'"
+            [class.active]="
+              translation.currentLanguage === 'en'
+            "
             (click)="changeLanguage('en')"
           >
-            <img src="https://flagcdn.com/us.svg" alt="English" class="mobile-lang-flag" />
+
+            <img
+              src="https://flagcdn.com/us.svg"
+              alt="English"
+              class="mobile-lang-flag"
+            />
+
             <span>English</span>
+
           </button>
 
         </div>
 
+
+        <!-- Mobile Navigation -->
         <div class="mobile-nav-links">
 
+
+          <!-- Inicio -->
           <button
             type="button"
             class="mobile-link"
             [class.mobile-active]="isActive('/')"
             (click)="goTo('/')"
           >
-            <span>{{ translation.currentLanguage === 'es' ? 'Inicio' : 'Home' }}</span>
+            <span>
+              {{
+                translation.currentLanguage === 'es'
+                  ? 'Inicio'
+                  : 'Home'
+              }}
+            </span>
           </button>
 
+
+          <!-- Vacantes -->
           <button
             type="button"
             class="mobile-link"
             [class.mobile-active]="isActive('/jobs')"
             (click)="goTo('/jobs')"
           >
-            <span>{{ translation.currentLanguage === 'es' ? 'Vacantes' : 'Jobs' }}</span>
+            <span>
+              {{
+                translation.currentLanguage === 'es'
+                  ? 'Vacantes'
+                  : 'Jobs'
+              }}
+            </span>
           </button>
 
+
+          <!-- Favoritos -->
           <button
             type="button"
             class="mobile-link"
             [class.mobile-active]="isActive('/favorites')"
             (click)="goTo('/favorites')"
           >
-            <span>{{ translation.currentLanguage === 'es' ? 'Favoritos' : 'Favorites' }}</span>
+            <span>
+              {{
+                translation.currentLanguage === 'es'
+                  ? 'Favoritos'
+                  : 'Favorites'
+              }}
+            </span>
+          </button>
+
+
+          <!-- Asistente IA -->
+          <button
+            type="button"
+            class="mobile-link"
+            [class.mobile-active]="isActive('/chat')"
+            (click)="goTo('/chat')"
+          >
+            <span>
+              {{
+                translation.currentLanguage === 'es'
+                  ? 'Asistente IA'
+                  : 'AI Assistant'
+              }}
+            </span>
           </button>
 
         </div>
 
+
+        <!-- Mobile CTA -->
         <button
           type="button"
           class="mobile-cta"
           (click)="goTo('/jobs')"
         >
-          {{ translation.currentLanguage === 'es' ? 'Explorar vacantes' : 'Explore jobs' }}
+
+          {{
+            translation.currentLanguage === 'es'
+              ? 'Explorar vacantes'
+              : 'Explore jobs'
+          }}
+
         </button>
 
       </div>
+
     }
 
   </nav>
