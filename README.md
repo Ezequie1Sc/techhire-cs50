@@ -49,7 +49,7 @@ The detected skills can subsequently be used as context for job recommendations 
 
 ### Job Recommendations
 
-TechHire uses information obtained from the CV analysis to identify job opportunities that may be relevant to the user's professional profile.
+TechHire uses information obtained from CV analysis to identify job opportunities that may be relevant to the user's professional profile.
 
 The recommendation flow uses detected skills together with information associated with available job listings to produce potentially relevant matches.
 
@@ -92,7 +92,7 @@ The user interface supports English and Spanish, allowing users to change the la
 
 ## Project Architecture
 
-The repository is organized into separate frontend and backend areas.
+TechHire is organized into separate frontend and backend applications.
 
 ```text
 techhire-cs50/
@@ -101,7 +101,8 @@ techhire-cs50/
 │   ├── api/
 │   ├── public/
 │   │   ├── hero.png
-│   │   └── vacantes.png
+│   │   ├── vacantes.png
+│   │   └── API.png
 │   ├── src/
 │   │   └── app/
 │   │       ├── core/
@@ -117,15 +118,59 @@ techhire-cs50/
 │
 ├── backend/
 │   └── jobly-ai-api/
+│       ├── app/
+│       │   ├── generated_cv/
+│       │   ├── models/
+│       │   │   └── cv_models.py
+│       │   ├── routers/
+│       │   │   ├── chat.py
+│       │   │   ├── cv_generator.py
+│       │   │   ├── cv.py
+│       │   │   └── recommendations.py
+│       │   ├── services/
+│       │   │   ├── chatbot/
+│       │   │   ├── cv_builder_service.py
+│       │   │   ├── gemini_service.py
+│       │   │   ├── matching_service.py
+│       │   │   └── pdf_service.py
+│       │   ├── templates/
+│       │   │   └── jobly_harvard_template.docxtpl.docx
+│       │   ├── config.py
+│       │   └── main.py
+│       ├── README.md
+│       └── requirements.txt
 │
 ├── README.md
 ├── DESIGN.md
 └── .gitignore
 ```
 
-The frontend contains the Angular application, reusable services and models, application pages, shared components, and public assets.
+The frontend contains the Angular application, user interface, application pages, services, models, shared components, and public assets.
 
-The backend is kept separately under `backend/jobly-ai-api` and provides the API functionality used by the frontend.
+The backend is located in `backend/jobly-ai-api/` and provides the API used by the frontend.
+
+### Backend Structure
+
+The backend is organized into several components:
+
+- `routers/` contains API routes for chat, CV processing, CV-related functionality, and job recommendations.
+- `services/` contains application services for chatbot functionality, CV processing, Gemini integration, job matching, and PDF processing.
+- `models/` contains backend data models.
+- `templates/` contains the document template used by the CV-related functionality.
+- `generated_cv/` contains generated CV-related files.
+- `config.py` contains backend configuration.
+- `main.py` is the backend application entry point.
+- `requirements.txt` contains the Python dependencies required by the API.
+
+### API Documentation
+
+The backend is implemented as a REST API using FastAPI.
+
+The project includes API documentation through FastAPI's OpenAPI support.
+
+<p align="center">
+  <img src="frontend/public/API.png" alt="TechHire API documentation" width="900">
+</p>
 
 ---
 
@@ -170,7 +215,7 @@ The Angular frontend communicates with the backend through HTTP requests.
 
 For CV analysis, the PDF is sent to the backend, where its text is extracted and processed. The resulting skills can then be used when generating recommendations and when providing context to the AI assistant.
 
-For the chat feature, the frontend sends the user's message and relevant context to the backend. The backend processes the request and returns the AI-generated response to the frontend.
+For the chat feature, the frontend sends the user's message and relevant context to the backend. The backend processes the request and returns the AI-assisted response to the frontend.
 
 ---
 
@@ -192,7 +237,7 @@ The recommendation functionality receives profile information and job data and r
 
 The chat functionality receives a user's message and relevant context, such as detected CV skills or information about a selected job, and returns an AI-assisted response.
 
-FastAPI also provides API documentation through its OpenAPI support.
+FastAPI provides OpenAPI documentation for the available API endpoints.
 
 ---
 
@@ -212,13 +257,13 @@ This separation makes the application easier to maintain and allows the frontend
 
 CV analysis was designed as part of a larger workflow rather than as an isolated feature.
 
-The skills extracted from a CV can be reused as context for job recommendations and for conversations with the AI assistant.
+The skills extracted from a CV can be reused as context for job recommendations and conversations with the AI assistant.
 
 ### Focused User Experience
 
 The interface focuses on the primary objective of the platform: helping users discover employment opportunities and understand how those opportunities relate to their professional profile.
 
-The application avoids adding unnecessary steps between searching for a position, analyzing a CV, receiving recommendations, and asking the assistant for guidance.
+The application avoids unnecessary steps between searching for a position, analyzing a CV, receiving recommendations, and asking the assistant for guidance.
 
 ### Angular 17
 
