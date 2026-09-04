@@ -2,21 +2,23 @@
 
 ### Discover opportunities. Build your future.
 
-TechHire is a web platform designed to help students, developers, and technology professionals find relevant job opportunities. The platform combines job searching with artificial intelligence to analyze a user's CV, identify professional skills, recommend relevant job opportunities, and provide conversational assistance.
+<p align="center">
+  <img src="frontend/public/hero.png" alt="TechHire landing page" width="900">
+</p>
 
-The project was developed as a final project for Harvard University's CS50x.
+TechHire is a web platform designed to help students, developers, and technology professionals discover relevant job opportunities. It combines job search functionality with artificial intelligence to analyze a user's CV, identify professional skills, recommend potentially relevant opportunities, and provide conversational assistance.
+
+The project was developed as a final project for Harvard University's CS50x 2026.
 
 ---
 
 ## About the Project
 
-Finding a suitable job can be difficult when candidates have to review many different job listings and determine which opportunities match their skills and experience.
+Finding a suitable technology job can require reviewing many listings and comparing their requirements with a candidate's skills and experience.
 
-TechHire addresses this problem by combining job search functionality with CV analysis and artificial intelligence.
+TechHire addresses this problem by bringing several related tasks into one platform. Users can search and filter job opportunities, save interesting listings as favorites, upload a CV in PDF format for analysis, review detected skills, receive job recommendations based on that profile, and interact with an AI assistant.
 
-Users can explore job opportunities, filter results, upload their CV, obtain an analysis of their technical skills, receive job recommendations based on their profile, and interact with an AI assistant for questions related to programming, technology, job searching, and professional development.
-
-The goal is to provide a single platform where users can move from discovering opportunities to understanding how their professional profile relates to those opportunities.
+The application is designed around a simple workflow: discover opportunities, understand how a professional profile relates to them, and use an AI assistant for additional guidance about technology, programming, job searching, and professional development.
 
 ---
 
@@ -24,25 +26,32 @@ The goal is to provide a single platform where users can move from discovering o
 
 ### Job Search
 
+TechHire provides a job search experience for discovering available employment opportunities.
+
 - Search for job opportunities.
 - Filter job listings.
 - View information about available positions.
-- Support for remote, hybrid, and on-site opportunities when this information is available.
+- Support for remote, hybrid, and on-site opportunities when the source provides this information.
 - Save interesting opportunities as favorites.
+- View job details and requirements.
+
+<p align="center">
+  <img src="frontend/public/vacantes.png" alt="TechHire job listings" width="900">
+</p>
 
 ### CV Analysis
 
-Users can upload their CV in PDF format.
+Users can upload a CV in PDF format.
 
-The backend processes the document and extracts relevant professional information, including technical skills.
+The backend receives the document and extracts its text using `pypdf`. The resulting information is processed to identify relevant professional and technical skills.
 
-The extracted skills can then be used as context for the recommendation system and AI assistant.
+The detected skills can subsequently be used as context for job recommendations and the AI assistant.
 
 ### Job Recommendations
 
-TechHire uses the information obtained from the user's CV to identify job opportunities that may be relevant to their professional profile.
+TechHire uses information obtained from the CV analysis to identify job opportunities that may be relevant to the user's professional profile.
 
-Recommendations are based primarily on the relationship between detected skills and the technologies or requirements associated with available job listings.
+The recommendation flow uses detected skills together with information associated with available job listings to produce potentially relevant matches.
 
 ### AI Assistant
 
@@ -50,16 +59,16 @@ TechHire includes a conversational AI assistant that can help users with:
 
 - Programming questions.
 - Technology concepts.
-- Job searching.
+- Job-search questions.
 - Professional development.
 - Questions related to detected CV skills.
 - Questions about a selected job opportunity.
 
-The assistant supports both English and Spanish.
+The assistant can respond in English or Spanish and can use relevant application context when available.
 
 ### Multilingual Interface
 
-The application supports multiple languages, allowing users to interact with the platform in English or Spanish.
+The user interface supports English and Spanish, allowing users to change the language of the application and interact with the AI assistant in either language.
 
 ---
 
@@ -67,14 +76,14 @@ The application supports multiple languages, allowing users to interact with the
 
 | Technology | Purpose |
 | --- | --- |
-| Angular 17 | Frontend application |
-| TypeScript | Application logic |
+| Angular 17 | Frontend framework |
+| TypeScript | Frontend application logic |
 | RxJS | Reactive programming and asynchronous operations |
-| Tailwind CSS | User interface and styling |
+| Tailwind CSS | Interface styling |
 | Python | Backend development |
-| FastAPI | REST API |
+| FastAPI | Backend REST API |
 | pypdf | PDF text extraction |
-| AI service | Conversational assistant and AI-powered processing |
+| AI service | Conversational assistance and AI-powered processing |
 | Job APIs | Job opportunity data |
 | Vercel | Frontend deployment |
 | Render | Backend deployment |
@@ -83,7 +92,7 @@ The application supports multiple languages, allowing users to interact with the
 
 ## Project Architecture
 
-TechHire is divided into a frontend and a backend.
+The repository is organized into separate frontend and backend areas.
 
 ```text
 techhire-cs50/
@@ -91,70 +100,77 @@ techhire-cs50/
 ├── frontend/
 │   ├── api/
 │   ├── public/
+│   │   ├── hero.png
+│   │   └── vacantes.png
 │   ├── src/
-│   │   ├── app/
-│   │   │   ├── core/
-│   │   │   ├── models/
-│   │   │   ├── pages/
-│   │   │   ├── services/
-│   │   │   └── shared/
-│   │   └── assets/
+│   │   └── app/
+│   │       ├── core/
+│   │       ├── models/
+│   │       ├── pages/
+│   │       ├── services/
+│   │       └── shared/
 │   ├── angular.json
 │   ├── package.json
-│   └── tailwind.config.js
+│   ├── package-lock.json
+│   ├── tailwind.config.js
+│   └── vercel.json
 │
 ├── backend/
-│   ├── app/
-│   │   ├── routers/
-│   │   │   ├── cv.py
-│   │   │   ├── recommendations.py
-│   │   │   └── chat.py
-│   │   └── services/
-│   │       ├── pdf_service.py
-│   │       ├── matching_service.py
-│   │       └── chat_service.py
-│   └── requirements.txt
+│   └── jobly-ai-api/
 │
 ├── README.md
 ├── DESIGN.md
 └── .gitignore
 ```
 
+The frontend contains the Angular application, reusable services and models, application pages, shared components, and public assets.
+
+The backend is kept separately under `backend/jobly-ai-api` and provides the API functionality used by the frontend.
+
 ---
 
 ## How It Works
 
-The main workflow of TechHire is:
+The main application flow can be summarized as follows:
 
 ```text
 User
-  │
-  ▼
+ │
+ ▼
 Angular Frontend
-  │
-  ├── Search jobs
-  │
-  ├── Upload CV
-  │       │
-  │       ▼
-  │   Backend API
-  │       │
-  │       ▼
-  │   CV Analysis
-  │       │
-  │       ▼
-  │   Detected Skills
-  │       │
-  │       ▼
-  │   Job Recommendations
-  │
-  └── AI Assistant
-          │
-          ▼
-      AI Backend
+ │
+ ├── Search and filter jobs
+ │
+ ├── Save favorites
+ │
+ ├── Upload CV
+ │       │
+ │       ▼
+ │   FastAPI Backend
+ │       │
+ │       ▼
+ │   PDF Text Extraction
+ │       │
+ │       ▼
+ │   Skill Detection
+ │       │
+ │       ▼
+ │   Job Recommendations
+ │
+ └── AI Assistant
+         │
+         ▼
+     FastAPI Backend
+         │
+         ▼
+      AI Service
 ```
 
-The frontend communicates with the backend through HTTP requests. The backend is responsible for processing CV files, handling recommendation requests, and managing conversations with the AI assistant.
+The Angular frontend communicates with the backend through HTTP requests.
+
+For CV analysis, the PDF is sent to the backend, where its text is extracted and processed. The resulting skills can then be used when generating recommendations and when providing context to the AI assistant.
+
+For the chat feature, the frontend sends the user's message and relevant context to the backend. The backend processes the request and returns the AI-generated response to the frontend.
 
 ---
 
@@ -162,39 +178,61 @@ The frontend communicates with the backend through HTTP requests. The backend is
 
 The backend is implemented as a REST API using FastAPI.
 
-Its main responsibilities include:
+Its main responsibilities are:
 
-### CV
+### CV Analysis
 
-The CV endpoint receives a PDF file, extracts its text, and processes the information needed to identify relevant skills.
+The CV analysis functionality accepts a PDF file, extracts its text, and processes the document to identify relevant skills and professional information.
 
 ### Recommendations
 
-The recommendation endpoint receives information about the user's skills and available job opportunities and returns relevant matches.
+The recommendation functionality receives profile information and job data and returns opportunities that may be relevant to the detected skills and requirements.
 
 ### Chat
 
-The chat endpoint receives the user's message and relevant context, such as CV skills or a selected job, and generates an AI-assisted response.
+The chat functionality receives a user's message and relevant context, such as detected CV skills or information about a selected job, and returns an AI-assisted response.
 
-The API also provides OpenAPI documentation through FastAPI.
+FastAPI also provides API documentation through its OpenAPI support.
 
 ---
 
 ## Design Decisions
 
-One of the main design decisions was to separate the frontend from the backend.
+### Separation of Frontend and Backend
 
-Angular is responsible for the user interface, navigation, job search experience, CV upload, recommendations, and chat interface. The backend handles document processing, recommendation logic, and communication with the AI service.
+The frontend and backend are separated so that each layer has a clear responsibility.
+
+Angular handles the user interface, navigation, job-search experience, CV upload, recommendations, favorites, language selection, and chat interface.
+
+The backend handles document processing, recommendation requests, and communication with the AI service.
 
 This separation makes the application easier to maintain and allows the frontend and backend to evolve independently.
 
-Another important decision was to use the user's CV as contextual information rather than treating CV analysis as an isolated feature. The extracted skills can influence the recommendations and provide additional context to the AI assistant.
+### CV as Context
 
-The interface was designed to be simple and focused on the user's main goal: finding relevant employment opportunities.
+CV analysis was designed as part of a larger workflow rather than as an isolated feature.
+
+The skills extracted from a CV can be reused as context for job recommendations and for conversations with the AI assistant.
+
+### Focused User Experience
+
+The interface focuses on the primary objective of the platform: helping users discover employment opportunities and understand how those opportunities relate to their professional profile.
+
+The application avoids adding unnecessary steps between searching for a position, analyzing a CV, receiving recommendations, and asking the assistant for guidance.
+
+### Angular 17
+
+The frontend uses Angular 17 as the framework version for this CS50x project. The repository keeps the Angular application compatible with the selected Angular 17 dependency set.
 
 ---
 
 ## Installation
+
+### Prerequisites
+
+The frontend requires Node.js and npm.
+
+The backend requires Python and pip.
 
 ### Frontend
 
@@ -216,13 +254,13 @@ Install dependencies:
 npm install
 ```
 
-Start the development server:
+Start the Angular development server:
 
 ```bash
 npm start
 ```
 
-The application will be available at:
+The application is normally available at:
 
 ```text
 http://localhost:4200
@@ -230,10 +268,16 @@ http://localhost:4200
 
 ### Backend
 
-Navigate to the backend directory:
+The backend source is located under:
+
+```text
+backend/jobly-ai-api/
+```
+
+Navigate to the backend project directory:
 
 ```bash
-cd ../backend
+cd ../backend/jobly-ai-api
 ```
 
 Create a Python virtual environment:
@@ -248,13 +292,13 @@ Activate it on Windows:
 venv\Scripts\activate
 ```
 
-Install the required dependencies:
+Install the backend dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Start the API according to the backend configuration.
+Start the API using the entry point and configuration provided by the backend project.
 
 ---
 
@@ -264,7 +308,7 @@ The frontend is deployed using Vercel.
 
 The backend API is deployed using Render.
 
-The production application communicates with the deployed backend through HTTP requests.
+The production frontend communicates with the deployed backend through HTTP requests.
 
 ### Live Application
 
@@ -278,17 +322,19 @@ https://jobly-ai-api.onrender.com
 
 ## Demo
 
-Live application:
+### Live Application
 
 https://techhire-cs50.vercel.app
 
-GitHub repository:
+### GitHub Repository
 
 https://github.com/Ezequie1Sc/techhire-cs50
 
-Project video:
+### Project Video
 
-[VIDEO URL WILL BE ADDED HERE]
+https://youtu.be/_mkmxHbk8LA
+
+The project video is a short demonstration of TechHire and its main functionality.
 
 ---
 
@@ -296,18 +342,18 @@ Project video:
 
 Artificial intelligence tools were used during the development process as development assistance.
 
-AI assistance was used for tasks such as:
+AI assistance was used for activities such as:
 
 - Exploring implementation approaches.
 - Debugging and understanding errors.
-- Improving parts of the user interface.
+- Reviewing and improving parts of the user interface.
 - Reviewing code structure.
-- Assisting with the implementation of the conversational assistant.
-- Reviewing documentation.
+- Assisting with the implementation and refinement of the conversational assistant.
+- Reviewing and improving project documentation.
 
-The final application, architecture, functionality, and implementation decisions were reviewed and integrated by the project author.
+The project author remained responsible for the final application, architecture, integration, functionality, testing, and implementation decisions.
 
-AI-assisted portions of the code are documented through comments where appropriate, following the CS50x final project requirements.
+Where AI-assisted code was used, the relevant code comments identify that assistance as required by the CS50x final project instructions.
 
 ---
 
@@ -322,6 +368,7 @@ Possible future improvements include:
 - Interview preparation features.
 - Additional languages.
 - User accounts and persistent profiles.
+- More personalized career recommendations.
 
 ---
 
